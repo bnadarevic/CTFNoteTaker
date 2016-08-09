@@ -61,7 +61,7 @@ def handle():
                     note=" ".join(note)
                     challenge=re.findall(pattern2," ".join(line[5:]))
                     challenge=" ".join(challenge)
-                    if(filter_msg(note)):
+                    if(filter_msg(note)==False):
                         add_note(CTF,challenge,line[0],note)
                     
                 else:
@@ -113,9 +113,11 @@ def filter_msg(msg):
     "pony",
     "onionib","slav"]#thank you ninjex for warning :)
     combined = "(" + ")|(".join(regexes) + ")"
-    if re.match(combined, msg):
+    if(re.match(combined, msg)):
         s.send(bytes("PRIVMSG %s :you used banned phrase" % CHAN, "UTF-8"))
         return True
+    else:
+	    return False
     
 
 
