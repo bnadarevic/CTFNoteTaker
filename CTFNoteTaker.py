@@ -27,30 +27,31 @@ def handle():
         elif(line[1]=="PRIVMSG"):
             cmd=line[3]
             cmd=cmd[1:]            
-            if(cmd=="!help"):                
+            if(cmd==".help"):                
                 help()
                
-            elif(cmd=="!startnew"):                
-                startnew(line[4])
+            elif(cmd==".startnew"):
+                if(filter_msg(line[4])==False):                
+                    startnew(line[4])
                               
                              
-            elif(cmd=="!listchal"):
+            elif(cmd==".listchal"):
                 if(len(line)>4):
                     list_chals(line[4:])
                 else:
                     help()
             
-            elif(cmd=="!listctf"):
+            elif(cmd==".listctf"):
                 list_CTFs()
                         
-            elif(cmd=="!create"):
+            elif(cmd==".create"):
                 if(len(line)>5):
-                    
-                    create(line[4],line[5:])
+                    if(filter_msg(line[4])==False and filter_msg(" ".join(line[5:]))==False):
+                        create(line[4],line[5:])
                 else:
                     help()
                     
-            elif(cmd=="!add"):
+            elif(cmd==".add"):
                 #CTF,chal,contributor,comment
                 if(len(line)>6):
                     user=line[0]
@@ -63,18 +64,20 @@ def handle():
                     challenge=" ".join(challenge)
                     if(filter_msg(note)==False):
                         add_note(CTF,challenge,line[0],note)
+            
                     
                 else:
                     help()
             
 
-            elif(cmd=="!read"):
+            elif(cmd==".read"):
                 if(len(line)>5):
                     read_note(line[4]," ".join(line[5:]))
                 else:
                     help()
-            
-            elif(cmd=="!quit"):
+            elif(cmd==".joinfail"):#pm to bot if it connects but doesnt join channel
+                join_chan_if_it_fails()
+            elif(cmd==".quit"):
                 if(len(line)>4):
                     quit(line[4])
                 else:
@@ -143,7 +146,7 @@ def pingpong(pong):
     print("PONG\n")
     
 def help():
-    s.send(bytes("PRIVMSG %s :!help , !startnew <CTF> , !listchal <CTF> , !listctf , !create <CTF> <chalname> , !add <CTF> <chalname> <note>, !read <CTF> <chalname> , !quit <pass>\r\n" % CHAN,"UTF-8"))
+    s.send(bytes("PRIVMSG %s :.help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>\r\n" % CHAN,"UTF-8"))
     s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % CHAN,"UTF-8"))
     s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % CHAN,"UTF-8"))
     print("HELP\n")
@@ -172,7 +175,7 @@ def create(CTF,challenge):
         challenge=" ".join(challenge)
         c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(SELECT ctfID FROM ctf WHERE name=(?)))",(challenge,CTF))
         conn.commit()
-        s.send(bytes("PRIVMSG %s :added %s to %s\r\n" % (CHAN , challenge , CTF),"UTF-8"))
+        s.send(bytes("PRIVMSG %s :added challenge %s to %s\r\n" % (CHAN , challenge , CTF),"UTF-8"))
     except:
         s.send(bytes("PRIVMSG %s :CTF doesnt exist , if you are certain it does spam NETWORKsecurity\r\n" % CHAN,"UTF-8"))
 
@@ -192,7 +195,9 @@ def read_note(CTF,challenge):
     rows=c.fetchall()
     format_output(rows)
     
-    
+def join_chan_if_it_fails():
+    #patch because it doesnt join each time
+    s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
                                
 def quit(password):
     
