@@ -7,7 +7,7 @@ import re
 import socket
 import string
 import sqlite3
-from Utilities.bannedStrings import *
+from Utilities.StringUtils import *
 from Utilities.conf import *
 from commands.startnew import *
 
@@ -116,7 +116,7 @@ def format_output(rows):
         for j in i:
             output.append(j)
     output=" , ".join(output)
-    s.send(bytes("PRIVMSG %s :output:%s\r\n" % (CHAN,output),"UTF-8"))
+    printChan(s,"output: " + output)
 
 def check_pass(password):
     passfile=open("password","r").read()
@@ -131,15 +131,15 @@ def pingpong(pong):
     print("PONG\n")
 
 def help():
-    s.send(bytes("PRIVMSG %s :.help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>\r\n" % CHAN,"UTF-8"))
+    printChan(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>")
     s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % CHAN,"UTF-8"))
     s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % CHAN,"UTF-8"))
     print("HELP\n")
 
 def help(user):
-    s.send(bytes("PRIVMSG %s :.help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>\r\n" % user,"UTF-8"))
-    s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % user,"UTF-8"))
-    s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % user,"UTF-8"))
+    printUser(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>",user)
+    printUser(s,"Do not use whitespace in CTF name(you can use it in challenge name)", user)
+    printUser(s,"Prefix your note with \"note:\" (without quotes)", user)
     print("HELP\n")
 
 
