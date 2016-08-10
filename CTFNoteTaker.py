@@ -34,6 +34,8 @@ def handle():
             elif(cmd==".startnew"):
                 if(filter_msg(line[4],s)==False):
                     startnew(line[4])
+                else:
+                    s.send(getBannedMessageBytes())
 
 
             elif(cmd==".listchal"):
@@ -49,6 +51,8 @@ def handle():
                 if(len(line)>5):
                     if(filter_msg(line[4],s)==False and filter_msg(" ".join(line[5:]),s)==False):
                         create(line[4],line[5:])
+                    else:
+                        s.send(getBannedMessageBytes())
                 else:
                     help()
 
