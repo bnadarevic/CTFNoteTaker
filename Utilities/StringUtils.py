@@ -55,3 +55,9 @@ def filter_msg(msg,s):
 	    return False
 def getBannedMessageBytes():
     return bytes(("PRIVMSG %s : "+ BANNEDPHRASEMSG +"\r\n") % CHAN,"UTF-8")
+
+def printChan(socket, msg):
+    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,msg),"UTF-8"))
+
+def printUser(socket, msg, user):
+    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,msg),"UTF-8"))

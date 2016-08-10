@@ -4,7 +4,7 @@ import socket
 import string
 import sqlite3
 from Utilities.conf import *
-from Utilities.bannedStrings import *
+from Utilities.StringUtils import *
 
 #lines, usr, socket
 def startnewcmd(line,user,socket,connection, c):
