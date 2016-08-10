@@ -44,14 +44,14 @@ def filter(msg):
         if(bannedString in msg):
             banned = True
     if(re.match(combined, msg)):
-        print("Filtered")
         banned = True
     return banned
 
 def filter_msg(msg,s):
-    #This is getting called properly
+    #This is getting called properly, but bytes not sending correctly
     if(filter(msg)):
-        s.send(bytes("PRIVMSG %s :you used banned phrase" % conf.CHAN, "UTF-8"))
         return True
     else:
 	    return False
+def getBannedMessageBytes():
+    return bytes(("PRIVMSG %s : "+ conf.BANNEDPHRASEMSG +"\r\n") % conf.CHAN,"UTF-8")

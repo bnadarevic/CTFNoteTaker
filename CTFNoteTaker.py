@@ -65,6 +65,8 @@ def handle():
                     challenge=" ".join(challenge)
                     if(filter_msg(note,s)==False):
                         add_note(CTF,challenge,line[0],note)
+                    else:
+                        s.send(getBannedMessageBytes())
 
 
                 else:
