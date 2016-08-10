@@ -22,14 +22,15 @@ def handle():
     for line in temp:
         print(line)
         line = str.rstrip(line)
-        line = str.split(line)
+        line = str.split(line)#Space delimitted by default.
         if(line[0] == "PING"):
             pingpong(line[1])
         elif(line[1]=="PRIVMSG"):
             cmd=line[3]
             cmd=cmd[1:]
+            user=(line[0])[1:line[0].index("!")]
             if(cmd==".help"):
-                help()
+                help(user)
 
             elif(cmd==".startnew"):
                 if(filter_msg(line[4],s)==False):
@@ -121,6 +122,13 @@ def help():
     s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % conf.CHAN,"UTF-8"))
     s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % conf.CHAN,"UTF-8"))
     print("HELP\n")
+
+def help(user):
+    s.send(bytes("PRIVMSG %s :.help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>\r\n" % user,"UTF-8"))
+    s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % user,"UTF-8"))
+    s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % user,"UTF-8"))
+    print("HELP\n")
+
 def startnew(CTF):
 
     c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
