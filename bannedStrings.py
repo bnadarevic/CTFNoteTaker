@@ -7,9 +7,11 @@ import re
 import socket
 import string
 import sqlite3
+import conf
 
-def filter_msg(msg):
+def filter_msg(msg,s):
 
+    #This is getting called properly
     regexes = [ # Creating regular experession list of banned and glined phrases.
     "Come watch me on my webcam and chat /w me :-\) http://.+:\d+/me\.mpg",
     "Speed up your mIRC DCC Transfer by up to 75%.*www\.freewebs\.com/mircupdate/mircspeedup\.exe",
@@ -40,7 +42,7 @@ def filter_msg(msg):
     "onionib","slav"]#thank you ninjex for warning :)
     combined = "(" + ")|(".join(regexes) + ")"
     if(re.match(combined, msg)):
-        s.send(bytes("PRIVMSG %s :you used banned phrase" % CHAN, "UTF-8"))
+        s.send(bytes("PRIVMSG %s :you used banned phrase" % conf.CHAN, "UTF-8"))
         return True
     else:
 	    return False
