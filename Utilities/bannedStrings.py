@@ -7,7 +7,7 @@ import re
 import socket
 import string
 import sqlite3
-import Utilities.conf
+from Utilities.conf import *
 
 def filter(msg):
     regexes = [ # Creating regular experession list of banned and glined phrases.
@@ -54,4 +54,4 @@ def filter_msg(msg,s):
     else:
 	    return False
 def getBannedMessageBytes():
-    return bytes(("PRIVMSG %s : "+ Utilities.conf.BANNEDPHRASEMSG +"\r\n") % Utilities.conf.CHAN,"UTF-8")
+    return bytes(("PRIVMSG %s : "+ BANNEDPHRASEMSG +"\r\n") % CHAN,"UTF-8")
