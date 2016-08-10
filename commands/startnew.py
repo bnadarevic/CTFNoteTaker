@@ -16,7 +16,7 @@ def startnewcmd(line,user,socket,connection, c):
             socket.send(getBannedMessageBytes())
             return False
     else:
-        socket.send(bytes("PRIVMSG %s :Please enter a CTF name.\r\n" % CHAN,"UTF-8"))
+        socket.send(bytes("PRIVMSG %s :Please enter a CTF name after.\r\n" % CHAN,"UTF-8"))
 
 def startnew(CTF,s,conn,c):
     c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
