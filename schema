@@ -19,3 +19,6 @@ challengeID INT NOT NULL,
 FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)
 ON DELETE CASCADE);
 
+CREATE TABLE admins(
+contributor TEXT NOT NULL
+ON DELETE CASCADE);
