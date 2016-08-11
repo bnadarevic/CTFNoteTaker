@@ -49,7 +49,7 @@ def cmdParser(s,c,conn,user,line,cmd):
         startreadcmd(user,s,c,line)
 
     elif(cmd==".joinfail"):#pm to bot if it connects but doesnt join channel
-        join_chan_if_it_fails()
+        join_chan_if_it_fails(s)
 
     elif(cmd==".quit"):
         if(len(line)>4):
@@ -78,7 +78,7 @@ def help(s,user):
     printUser(s,"Prefix your note with \"note:\" (without quotes)", user)
     print("HELP\n")
 
-def join_chan_if_it_fails():
+def join_chan_if_it_fails(s):
     #patch because it doesnt join each time
     s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
 
