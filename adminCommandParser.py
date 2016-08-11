@@ -16,7 +16,7 @@ def adminCmdParser(s,c,conn,user,line,cmd):
         else:
             Perm = False
     if(Perm == False):
-        printChan("You don't have enough perms to use this command!")
+        printChan(s,"You don't have enough perms to use this command!")
         return
     if(cmd=="error"):
         throwErrorAdminCMD(s,c,conn,user,line)

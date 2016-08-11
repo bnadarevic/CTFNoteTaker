@@ -82,7 +82,7 @@ while(1):
     try:
         handle()
     except:
-        print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(sys.exc_info()[0]))
+        print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
         if("Keyboard" in str(sys.exc_info()[0])):
             printChan(s, NICK + " is shutting down.")
             break
