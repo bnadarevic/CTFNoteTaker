@@ -58,8 +58,8 @@ def getBannedMessageBytes():
 
 def printChan(socket, msg):
     socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,msg),"UTF-8"))
-    print(CHAN + " " + msg)
+    print(CHAN + " " + str(msg))
 
 def printUser(socket, msg, user):
     socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,msg),"UTF-8"))
-    print(user + " " + msg)
+    print(user + " " + str(msg))
