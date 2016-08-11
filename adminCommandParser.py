@@ -7,6 +7,7 @@ from Utilities.conf import *
 from Utilities.StringUtils import *
 from adminCommands.error import *
 
+
 #Some check for user permission
 def adminCmdParser(s,c,conn,user,line,cmd):
     Perm = True
