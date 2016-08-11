@@ -60,6 +60,9 @@ def printChan(socket, msg):
     socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,msg),"UTF-8"))
     print(CHAN + " " + str(msg))
 
+"""
+Parameters are: socket,msg,user
+"""
 def printUser(socket, msg, user):
     socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,msg),"UTF-8"))
     print(user + " " + str(msg))

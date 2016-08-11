@@ -3,6 +3,7 @@
 # modified ircecho.py https://gist.github.com/RobertSzkutak/1326452
 
 import sys
+import os
 import re
 import socket
 import string
@@ -40,13 +41,13 @@ def is_first_run():
     firstRunFile = open("firstRun.conf","r")
     data=firstRunFile.read()
     data=data.rstrip()
-    if(data=="yes"):
+    if(data=="yes" or data=="" or (not os.path.isfile("firstRun.conf"))):
         c.execute("CREATE TABLE ctf(ctfID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL)")
         c.execute("CREATE TABLE challenges(challengeID INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,problemtext TEXT,ctfID INT NOT NULL,FOREIGN KEY(ctfID) REFERENCES ctf(ctfID)ON DELETE CASCADE)")
         c.execute("CREATE TABLE note(noteID INTEGER PRIMARY KEY AUTOINCREMENT,contributor TEXT NOT NULL,note TEXT NOT NULL,challengeID INT NOT NULL,FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)ON DELETE CASCADE)")
         conn.commit()
         firstRunFile.close()
-        firstRunFile = open("firstRun.conf","w")
+        firstRunFile = open("firstRun.conf","w+")
         firstRunFile.write("no")
         firstRunFile.close()
         return True

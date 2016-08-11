@@ -20,3 +20,8 @@ def adminCmdParser(s,c,conn,user,line,cmd):
         return
     if(cmd=="~error"):
         throwErrorAdminCMD(s,c,conn,user,line)
+    elif(cmd=="~help")
+        adminHelp(s,user)
+
+def adminHelp(s,user):
+    printUser(s,"~error - Generates a sample error for testing purposes.",user)
