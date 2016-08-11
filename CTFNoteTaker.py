@@ -178,5 +178,6 @@ while(1):
     try:
         handle()
     except:
+        printChan(s,sys.exc_info()[0])
         printUser(s,sys.exc_info()[0],MASTER)
         print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + sys.exc_info()[0])
