@@ -20,7 +20,7 @@ def adminCmdParser(s,c,conn,user,line,cmd):
         return
     if(cmd=="~error"):
         throwErrorAdminCMD(s,c,conn,user,line)
-    elif(cmd=="~help")
+    elif(cmd=="~help"):
         adminHelp(s,user)
 
 def adminHelp(s,user):
