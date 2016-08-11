@@ -76,15 +76,15 @@ s.send(bytes("NICK %s\r\n" % NICK, "UTF-8"))
 s.send(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
 handle()
 s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
-s.send(bytes("PRIVMSG %s :Hello Master\r\n" % MASTER, "UTF-8"))
+printMaster(s,"Hello Master")
 
 while(1):
     try:
         handle()
     except:
-        print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
         if("Keyboard" in str(sys.exc_info()[0])):
             printChan(s, NICK + " is shutting down.")
             break
+        print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
         printChan(s,"An internal error occured!")
-        printUser(s,"Error " + str(sys.exc_info()[0]),MASTER)
+        printMaster(s,"Error " + str(traceback.format_exc()))

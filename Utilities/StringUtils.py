@@ -66,3 +66,8 @@ Parameters are: socket,msg,user
 def printUser(socket, msg, user):
     socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,msg),"UTF-8"))
     print(user + " " + str(msg))
+
+def printMaster(socket, msg):
+    for mast in MASTER:
+        socket.send(bytes(("PRIVMSG %s :%s\r\n") % (mast,msg),"UTF-8"))
+        print(mast + " " + str(msg))

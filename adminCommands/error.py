@@ -8,4 +8,4 @@ from Utilities.StringUtils import *
 from commands.create import *
 
 def throwErrorAdminCMD(s,c,conn,user,line):
-    raise Exception("I raised an error! " + str(line))
+    raise Exception("I raised an error! " + str(line) + "\r\n")
