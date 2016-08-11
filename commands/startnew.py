@@ -19,6 +19,9 @@ def startnewcmd(line,user,socket,connection, c):
         socket.send(bytes("PRIVMSG %s :Please enter a CTF name after.\r\n" % CHAN,"UTF-8"))
 
 def startnew(CTF,s,conn,c):
-    c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
-    conn.commit()
-    s.send(bytes("PRIVMSG %s :%s created\r\n" % (CHAN,CTF),"UTF-8"))
+    try:
+        c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
+        conn.commit()
+        s.send(bytes("PRIVMSG %s :%s created\r\n" % (CHAN,CTF),"UTF-8"))
+    except sqlite3.IntegrityError:
+        s.send(bytes("PRIVMSG %s :%s already exists\r\n" % (CHAN,CTF),"UTF-8"))
