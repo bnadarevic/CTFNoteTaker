@@ -31,10 +31,10 @@ def handle():
             cmd=line[3]
             cmd=cmd[1:]
             user=(line[0])[1:line[0].index("!")]
-            if(cmd.startswith(".")):
-                cmdParser(s,c,conn,user,line,cmd)
-            elif(cmd.startswith("~")):
-                adminCmdParser(s,c,conn,user,line,cmd)
+            if(cmd.startswith(COMMANDPREFIX)):
+                cmdParser(s,c,conn,user,line,cmd[len(COMMANDPREFIX):])
+            elif(cmd.startswith(ADMINCOMMANDPREFIX)):
+                adminCmdParser(s,c,conn,user,line,cmd[len(ADMINCOMMANDPREFIX):])
 
 
 def is_first_run():

@@ -17,7 +17,7 @@ from commands.add import *
 from commands.read import *
 
 def cmdParser(s,c,conn,user,line,cmd):
-    if(cmd==".help"):
+    if(cmd=="help"):
         if(len(line)>4):
             if(line[4]=="public"):
                 help_chan(s)
@@ -26,34 +26,34 @@ def cmdParser(s,c,conn,user,line,cmd):
         else:
             help(s,user)
 
-    elif(cmd==".startnew"):
+    elif(cmd=="startnew"):
         startnewcmd(line,user,s,conn,c)
 
 
-    elif(cmd==".listchal"):
+    elif(cmd=="listchal"):
         list_chals(line,s,c)
 
 
-    elif(cmd==".listctf"):
+    elif(cmd=="listctf"):
         list_CTFs(c,s)
 
-    elif(cmd==".create"):
+    elif(cmd=="create"):
         startcreatecmd(s,line,conn,c)
 
 
-    elif(cmd==".add"):
+    elif(cmd=="add"):
         startaddcmd(s,c,conn,user,line)
 
 
-    elif(cmd==".read"):
+    elif(cmd=="read"):
         startreadcmd(user,s,c,line)
 
-    elif(cmd==".joinfail"):#pm to bot if it connects but doesnt join channel
+    elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails(s)
 
-    elif(cmd==".quit"):
+    elif(cmd=="quit"):
         if(len(line)>4):
-            quit(line[4])
+            quit(s,conn,line[4])
         else:
             help_chan(s)
 
@@ -82,12 +82,12 @@ def join_chan_if_it_fails(s):
     #patch because it doesnt join each time
     s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
 
-def quit(password):
+def quit(s,conn,password):
 
     if(check_pass(password)):
-        s.send(bytes("QUIT :\r\n","UTF-8"))
-
+        printChan(s, NICK + " is shutting down.")
+        s.send(bytes("QUIT : shutting down. \r\n","UTF-8"))
         conn.close()
-        sys.exit()
+        raise KeyboardInterrupt
     else:
         print("FAILED QUIT\n")
