@@ -15,7 +15,6 @@ def list_chals(line ,socket ,c):
         print(CTF)
         c.execute("SELECT title FROM challenges WHERE ctfID=(SELECT ctfID FROM ctf WHERE name=(?))",(CTF,))
         rows=c.fetchall()
-        format_output(rows,socket)
+        format_output(socket,rows)
     else:
         s.send(bytes("PRIVMSG %s :Please enter CTF name.\r\n" %CHAN ,"UTF-8"))
-        
