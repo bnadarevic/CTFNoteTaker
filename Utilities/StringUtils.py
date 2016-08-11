@@ -57,17 +57,17 @@ def getBannedMessageBytes():
     return bytes(("PRIVMSG %s : "+ BANNEDPHRASEMSG +"\r\n") % CHAN,"UTF-8")
 
 def printChan(socket, msg):
-    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,msg),"UTF-8"))
+    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,str(msg)),"UTF-8"))
     print(CHAN + " " + str(msg))
 
 """
 Parameters are: socket,msg,user
 """
 def printUser(socket, msg, user):
-    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,msg),"UTF-8"))
+    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
     print(user + " " + str(msg))
 
 def printMaster(socket, msg):
     for mast in MASTER:
-        socket.send(bytes(("PRIVMSG %s :%s\r\n") % (mast,msg),"UTF-8"))
+        socket.send(bytes(("PRIVMSG %s :%s\r\n") % (mast,str(msg)),"UTF-8"))
         print(mast + " " + str(msg))
