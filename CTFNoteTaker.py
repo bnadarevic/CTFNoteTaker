@@ -47,7 +47,7 @@ def handle():
                 list_CTFs(c,s)
 
             elif(cmd==".create"):
-                startcreatecmd(s,line,c,conn)
+                startcreatecmd(s,line,conn,c)
                     
 
             elif(cmd==".add"):

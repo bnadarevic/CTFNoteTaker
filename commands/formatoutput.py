@@ -11,5 +11,5 @@ def format_output(s,rows):
     for i in rows:
         for j in i:
             output.append(j)
-    output=" , ".join(output)
-    printChan(s,"output: " + output)
+    output=", ".join(output)
+    printChan(s,"output:" + output)

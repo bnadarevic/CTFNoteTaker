@@ -7,7 +7,7 @@ from Utilities.conf import *
 from Utilities.StringUtils import *
 from commands.formatoutput import *
 
-def list_CTFs(s,c):
+def list_CTFs(c,s):
     c.execute("SELECT name FROM ctf")
     rows=c.fetchall()
-    format_output(rows)
+    format_output(s,rows)
