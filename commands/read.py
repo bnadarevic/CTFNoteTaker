@@ -15,6 +15,4 @@ def startreadcmd(user,s,c,line):
 def read_note(s,c,CTF,challenge):
     c.execute("SELECT note FROM note WHERE challengeID=(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID from ctf WHERE name=(?)))" , (challenge,CTF))
     rows=c.fetchall()
-    format_output(rows,s)
-        
-        
+    format_output(s,rows)

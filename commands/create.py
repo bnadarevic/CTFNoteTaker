@@ -12,21 +12,14 @@ def startcreatecmd(s,line,connection, c):
             create(s,c,connection,line[4],line[5:])
         else:
             s.send(getBannedMessageBytes())
-            
     else:
-        
         s.send(bytes("PRIVMSG %s:Please enter CTF and challenge name\r\n" %CHAN,"UTF-8"))
-	
-	
-	
-	
-def create(s,c,conn,CTF,challenge):
+
+def create(s,c,conn,CTF,challenge,fromCmd=True):
     try:
-        
-        challenge=" ".join(challenge)
+        if(fromCmd):
+            challenge=" ".join(challenge)
         print(list(CTF))
-        
-        
         c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(SELECT ctfID FROM ctf WHERE name=(?)))",(challenge,CTF))
         conn.commit()
         s.send(bytes("PRIVMSG %s :added challenge %s to %s\r\n" % (CHAN , challenge , CTF),"UTF-8"))

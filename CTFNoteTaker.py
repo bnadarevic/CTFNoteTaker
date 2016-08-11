@@ -44,30 +44,28 @@ def handle():
             elif(cmd==".startnew"):
                 startnewcmd(line,user,s,conn,c)
 
- 
-            elif(cmd==".listchal"):                
+
+            elif(cmd==".listchal"):
                 list_chals(line,s,c)
-               
+
 
             elif(cmd==".listctf"):
                 list_CTFs(c,s)
 
             elif(cmd==".create"):
                 startcreatecmd(s,line,conn,c)
-                    
+
 
             elif(cmd==".add"):
                 startaddcmd(s,c,conn,user,line)
-                
+
 
             elif(cmd==".read"):
-                
-                startreadcmd(user,s,c,lines)
-                
+                startreadcmd(user,s,c,line)
+
             elif(cmd==".joinfail"):#pm to bot if it connects but doesnt join channel
                 join_chan_if_it_fails()
-                
-                
+
             elif(cmd==".quit"):
                 if(len(line)>4):
                     quit(line[4])
