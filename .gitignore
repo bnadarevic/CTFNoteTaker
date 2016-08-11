@@ -1,0 +1,5 @@
+*.pyc
+*.sqlite
+*.pyo
+firstRun.conf
+__pycache__/
