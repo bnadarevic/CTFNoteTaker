@@ -33,7 +33,13 @@ def handle():
             cmd=cmd[1:]
             user=(line[0])[1:line[0].index("!")]
             if(cmd==".help"):
-                help(user)
+                if(len(line)>4):
+                    if(line[4]=="public"):
+                        help_chan()
+                    else:
+                        help(user)
+                else:
+                    help(user)
 
             elif(cmd==".startnew"):
                 startnewcmd(line,user,s,conn,c)
