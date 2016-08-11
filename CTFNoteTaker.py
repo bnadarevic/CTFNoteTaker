@@ -175,4 +175,8 @@ s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
 s.send(bytes("PRIVMSG %s :Hello Master\r\n" % MASTER, "UTF-8"))
 
 while(1):
-    handle()
+    try:
+        handle()
+    except:
+        printUser(s,sys.exc_info()[0],MASTER)
+        print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + sys.exc_info()[0])
