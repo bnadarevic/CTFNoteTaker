@@ -1,5 +1,7 @@
-*.pyc
+**.pyc
 *.sqlite
-*.pyo
+**.pyo
+**.pyd
 firstRun.conf
 __pycache__/
+**/__pycache__/
