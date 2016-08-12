@@ -13,6 +13,6 @@ def startreadcmd(user,s,c,line):
     else:
         s.send(bytes("PRIVMSG %s :Please enter CTF and challenge.\r\n" %CHAN,"UTF-8"))
 def read_note(s,c,CTF,challenge):
-    c.execute("SELECT note FROM note WHERE challengeID=(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID from ctf WHERE name=(?)))" , (challenge,CTF))
+    c.execute("SELECT contributor,note FROM note WHERE challengeID=(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID from ctf WHERE name=(?)))" , (challenge,CTF))
     rows=c.fetchall()
-    format_output(s,rows)
+    pretty_format_output(s,rows)
