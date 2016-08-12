@@ -4,3 +4,4 @@
 **.pyd
 firstRun.conf
 __pycache__/
+**/__pycache__/
