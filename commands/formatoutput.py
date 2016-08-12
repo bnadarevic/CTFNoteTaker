@@ -13,10 +13,11 @@ def format_output(s,rows):
         for j in i:
             output.append(j)
     print(output)
-    
-    output=", ".join(output)
-    printChan(s,"output" + output) #I want to init output just in case there is something we missed in spamfilter or so
-    
+    if(output!=""):
+        output=", ".join(output)
+        printChan(s,output) #I want to init output just in case there is something we missed in spamfilter or so
+    else:
+        printChan(s,"Its empty :(")
 def pretty_format_output(s,rows):
     output=[]
     for i in rows:
