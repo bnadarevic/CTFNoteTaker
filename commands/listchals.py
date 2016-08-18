@@ -13,7 +13,7 @@ def list_chals(line ,socket ,c):
         CTF=line[4:]
         CTF=CTF[0]
         print(CTF)
-        c.execute("SELECT title FROM challenges WHERE ctfID=(SELECT ctfID FROM ctf WHERE name=(?))",(CTF,))
+        c.execute("SELECT title FROM challenges WHERE ctfID=(SELECT ctfID FROM ctf WHERE name=(?));",(CTF,))
         rows=c.fetchall()
         format_output(socket,rows)
     else:

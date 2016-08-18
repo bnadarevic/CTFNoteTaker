@@ -9,7 +9,7 @@ from commands.formatoutput import *
 
 def adminDeleteCTF(s,c,conn,user,line):
     if(len(line) > 4):
-        if(line[4].startswith("-v")):
+        if(line[4].startswith("-v") or line[4].startswith("verbose")):
             if(len(line)>5):
                 if(filter_msg(line[5],s)==False):
                     deleteCTF(line[5],s,conn,c,user,True)
@@ -32,7 +32,7 @@ def adminDeleteCTF(s,c,conn,user,line):
 def deleteCTF(CTF,s,conn,c,user,verbose=False):
     try:
         #Yeah I know, Super basic Day 1 SQL injection vuln, but lazy atm. Will fix later.
-        c.execute("SELECT \"ctfID\" FROM ctf where name = \'"+CTF+"\';")
+        c.execute("SELECT \"ctfID\" FROM ctf where name = (?);",(CTF,))
         ctfID = str((c.fetchone()))[1:-2]
 
         c.execute("SELECT challengeID FROM challenges WHERE ctfID = "+ctfID+";")
@@ -55,9 +55,9 @@ def deleteCTF(CTF,s,conn,c,user,verbose=False):
 
         c.execute("DELETE FROM challenges WHERE ctfID = "+ctfID+";")
 
-        c.execute("DELETE FROM ctf WHERE name = \'"+CTF+"\';")
+        c.execute("DELETE FROM ctf WHERE name = (?);",(CTF,))
 
         conn.commit()
-        printUser(s,"deleted " + ctf + ", along with all of its corresponding challenges and notes.",user)
+        printUser(s,"deleted " + CTF + ", along with all of its corresponding challenges and notes.",user)
     except sqlite3.IntegrityError:
         s.send(bytes("PRIVMSG %s :%s Strange error in deleting CTF\r\n" % (CHAN,CTF),"UTF-8"))
