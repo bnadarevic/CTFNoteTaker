@@ -8,6 +8,7 @@ from Utilities.StringUtils import *
 from Utilities.permissionUtils import *
 from adminCommands.error import *
 from adminCommands.quit import *
+from adminCommands.deleteCTF import *
 
 
 #Some check for user permission
@@ -30,12 +31,16 @@ def adminCmdParser(s,c,conn,user,line,cmd):
     if(Perm == False):
         printUser(s,"You don't have enough perms to use this command!")
         return
+
+    cmd = cmd.lower()
     if(cmd=="error"):
         throwErrorAdminCMD(s,c,conn,user,line)
     elif(cmd=="help"):
         adminHelp(s,user)
     elif(cmd=="quit"):
         adminQuit(s,conn,user)
+    elif(cmd=="deletectf"):
+        adminDeleteCTF(s,c,conn,user,line)
 
 def userIsMaster(user):
     for mast in MASTER:

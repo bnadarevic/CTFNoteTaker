@@ -33,7 +33,6 @@ def startaddcmd(s,c,conn,user,line):
 def startaddcmdparams(s,c,conn,user,line):
     line = formatLineToMethodStyle(line)
     #Now I need to resplit by , and ignore \,
-    printChan(s,line)
     for line2 in line:
         if(filter_msg(line2,s)==True):
             s.send(getBannedMessageBytes())
