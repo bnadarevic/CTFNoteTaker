@@ -40,22 +40,24 @@ def deleteCTF(CTF,s,conn,c,user,verbose=False):
         for row in rows:
             #row is in form (<number>,)
             rowString = (str(row))[1:-2]
+            title = ""
             if(verbose):
                 c.execute("SELECT title FROM challenges WHERE challengeID = "+rowString+";")
                 #We need a format method for c.fetchone() for multiple columns 1 row.
-                printUser(s,"Deleting the following notes from challenge " + str(c.fetchone()) + ": ",user)
-                c.execute("SELECT * FROM note WHERE challengeID = "+rowString+";")
-                format_output(s,c.fetchall(),user)
+                title = str(c.fetchone())
+                printUser(s,"Deleting the following notes from challenge " + title + ": ",user)
+                c.execute("SELECT contributor,note FROM note WHERE challengeID = "+rowString+";")
+                format_output_multirow(s,c.fetchall(),user)
 
             c.execute("DELETE FROM note WHERE challengeID = "+rowString+";")
             if(verbose):
-                printUser(s,"Notes deleted.",user)
+                printUser(s,"Notes deleted for challenge " + (title[2:-3]),user)
 
         c.execute("DELETE FROM challenges WHERE ctfID = "+ctfID+";")
 
         c.execute("DELETE FROM ctf WHERE name = \'"+CTF+"\';")
 
         conn.commit()
-        printUser(s,"deleted, along with all of its corresponding challenges and notes.",user)
+        printUser(s,"deleted " + ctf + ", along with all of its corresponding challenges and notes.",user)
     except sqlite3.IntegrityError:
         s.send(bytes("PRIVMSG %s :%s Strange error in deleting CTF\r\n" % (CHAN,CTF),"UTF-8"))

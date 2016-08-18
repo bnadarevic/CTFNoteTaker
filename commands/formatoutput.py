@@ -18,6 +18,14 @@ def format_output(s,rows,user=CHAN):
         printUser(s,output,user) #I want to init output just in case there is something we missed in spamfilter or so
     else:
         printUser(s,"Its empty :(",user)
+
+def format_output_multirow(s,rows,user=CHAN):
+    for row in rows:
+        toPrint = []
+        for item in row:
+            toPrint.append(str(item))
+        printUser(s,toPrint,user)
+
 def pretty_format_output(s,rows,user=CHAN):
     output=[]
     for i in rows:
