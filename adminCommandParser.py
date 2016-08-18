@@ -26,7 +26,7 @@ def adminCmdParser(s,c,conn,user,line,cmd):
                     Perm = True
                     del line[4]
             else:
-                printUser("You must enter the password.")
+                printUser(s,"You must enter the password.")
                 return
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
@@ -53,7 +53,7 @@ def userIsMaster(user):
     return False
 
 def adminHelp(s,user):
-    printUser(s,"<var> denotes optional parameter, [var] denotes required parameter")
+    printUser(s,"<var> denotes optional parameter, [var] denotes required parameter",user)
     printUser(s,"~error - Generates a sample error for testing purposes.",user)
     printUser(s,"~quit - Shuts me down :(",user)
     printUser(s,"~deleteCTF <-v> [ctfname] - deletes a CTF ",user)
