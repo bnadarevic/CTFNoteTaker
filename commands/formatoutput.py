@@ -6,22 +6,21 @@ import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
 
-def format_output(s,rows):
+def format_output(s,rows,user=CHAN):
     print("rows:"+str(rows))
     output=[]
     for i in rows:
         for j in i:
-            output.append(j)
+            output.append(str(j))
     print(output)
     if(output!=""):
         output=", ".join(output)
-        printChan(s,output) #I want to init output just in case there is something we missed in spamfilter or so
+        printUser(s,output,user) #I want to init output just in case there is something we missed in spamfilter or so
     else:
-        printChan(s,"Its empty :(")
-def pretty_format_output(s,rows):
+        printUser(s,"Its empty :(",user)
+def pretty_format_output(s,rows,user=CHAN):
     output=[]
     for i in rows:
         output.append(": ".join(str(j) for j in i))
     for i in output:
-        printChan(s,i)
-    
+        printUser(s,i,user)

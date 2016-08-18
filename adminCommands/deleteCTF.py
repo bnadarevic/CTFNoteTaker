@@ -5,34 +5,57 @@ import string
 import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
+from commands.formatoutput import *
 
 def adminDeleteCTF(s,c,conn,user,line):
     if(len(line) > 4):
-        if(filter_msg(line[4],s)==False):
-            deleteCTF(line[4],s,conn,c)
-            return True
+        if(line[4].startswith("-v")):
+            if(len(line)>5):
+                if(filter_msg(line[5],s)==False):
+                    deleteCTF(line[5],s,conn,c,user,True)
+                    return True
+                else:
+                    s.send(getBannedMessageBytes())
+                    return False
+            else:
+                printUser(s,"Please enter a CTF name to delete",user)
         else:
-            s.send(getBannedMessageBytes())
-            return False
+            if(filter_msg(line[4],s)==False):
+                deleteCTF(line[4],s,conn,c,user)
+                return True
+            else:
+                s.send(getBannedMessageBytes())
+                return False
     else:
-        printChan("Please enter a CTF name to delete.")
+        printUser(s,"Please enter a CTF name to delete",user)
 #Need to add Useful print messages here.
-def deleteCTF(CTF,s,conn,c):
-    printChan(s,CTF)
+def deleteCTF(CTF,s,conn,c,user,verbose=False):
     try:
+        #Yeah I know, Super basic Day 1 SQL injection vuln, but lazy atm. Will fix later.
         c.execute("SELECT \"ctfID\" FROM ctf where name = \'"+CTF+"\';")
         ctfID = str((c.fetchone()))[1:-2]
 
         c.execute("SELECT challengeID FROM challenges WHERE ctfID = "+ctfID+";")
-        for row in c.fetchall():
+        rows = c.fetchall()
+        for row in rows:
+            #row is in form (<number>,)
             rowString = (str(row))[1:-2]
+            if(verbose):
+                c.execute("SELECT title FROM challenges WHERE challengeID = "+rowString+";")
+                #We need a format method for c.fetchone() for multiple columns 1 row.
+                printUser(s,"Deleting the following notes from challenge " + str(c.fetchone()) + ": ",user)
+                c.execute("SELECT * FROM note WHERE challengeID = "+rowString+";")
+                format_output(s,c.fetchall(),user)
+
             c.execute("DELETE FROM note WHERE challengeID = "+rowString+";")
+            if(verbose):
+                printUser(s,"Notes deleted.",user)
 
         c.execute("DELETE FROM challenges WHERE ctfID = "+ctfID+";")
 
         c.execute("DELETE FROM ctf WHERE name = \'"+CTF+"\';")
 
         conn.commit()
-        s.send(bytes("PRIVMSG %s :%s deleted, and all its corresponding challenges and notes.\r\n" % (CHAN,CTF),"UTF-8"))
+        printUser(s,"deleted, along with all of its corresponding challenges and notes.",user)
     except sqlite3.IntegrityError:
         s.send(bytes("PRIVMSG %s :%s Strange error in deleting CTF\r\n" % (CHAN,CTF),"UTF-8"))
