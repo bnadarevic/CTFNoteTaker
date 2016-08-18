@@ -9,6 +9,7 @@ import string
 import sqlite3
 from Utilities.StringUtils import *
 from Utilities.conf import *
+from Utilities.permissionUtils import *
 from commands.startnew import *
 from commands.listchals import *
 from commands.listctfs import *
@@ -50,21 +51,6 @@ def cmdParser(s,c,conn,user,line,cmd):
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails(s)
 
-    elif(cmd=="quit"):
-        if(len(line)>4):
-            quit(s,conn,line[4])
-        else:
-            help_chan(s)
-
-
-def check_pass(password):
-    passfile=open("password","r").read()
-    passfile=passfile.replace("\n","")
-    if(password==passfile):
-        return True
-    else:
-        return False
-
 def help_chan(s):
     printChan(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>")
     s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % CHAN,"UTF-8"))
@@ -80,13 +66,3 @@ def help(s,user):
 def join_chan_if_it_fails(s):
     #patch because it doesnt join each time
     s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
-
-def quit(s,conn,password):
-
-    if(check_pass(password)):
-        printChan(s, NICK + " is shutting down.")
-        s.send(bytes("QUIT : shutting down. \r\n","UTF-8"))
-        conn.close()
-        raise KeyboardInterrupt
-    else:
-        print("FAILED QUIT\n")
