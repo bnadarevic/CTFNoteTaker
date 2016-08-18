@@ -11,7 +11,7 @@ def startreadcmd(user,s,c,line):
     if(len(line)>5):
         read_note(s,c,line[4]," ".join(line[5:]))
     else:
-        s.send(bytes("PRIVMSG %s :Please enter CTF and challenge.\r\n" %CHAN,"UTF-8"))
+        printChan(s,"Please enter CTF and challenge.")
 def read_note(s,c,CTF,challenge):
     c.execute("SELECT contributor,note FROM note WHERE challengeID=(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID from ctf WHERE name=(?)))" , (challenge,CTF))
     rows=c.fetchall()

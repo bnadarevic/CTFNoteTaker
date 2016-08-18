@@ -21,7 +21,7 @@ def cmdParser(s,c,conn,user,line,cmd):
     if(cmd=="help"):
         if(len(line)>4):
             if(line[4]=="public"):
-                help_chan(s)
+                help(s)
             else:
                 help(s,user)
         else:
@@ -51,13 +51,7 @@ def cmdParser(s,c,conn,user,line,cmd):
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails(s)
 
-def help_chan(s):
-    printChan(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>")
-    s.send(bytes("PRIVMSG %s :Do not use whitespace in CTF name(you can use it in challenge name)\r\n" % CHAN,"UTF-8"))
-    s.send(bytes("PRIVMSG %s :Prefix your note with \"note:\" (without quotes)\r\n" % CHAN,"UTF-8"))
-    print("HELP\n")
-
-def help(s,user):
+def help(s,user=CHAN):
     printUser(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>",user)
     printUser(s,"Do not use whitespace in CTF name(you can use it in challenge name)", user)
     printUser(s,"Prefix your note with \"note:\" (without quotes)", user)

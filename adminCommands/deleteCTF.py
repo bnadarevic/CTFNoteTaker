@@ -15,7 +15,7 @@ def deleteCTFAdminCMD(s,c,conn,user,line):
             s.send(getBannedMessageBytes())
             return False
     else:
-        s.send(bytes("PRIVMSG %s :Please enter a CTF name to delete.\r\n" % CHAN,"UTF-8"))
+        printChan("Please enter a CTF name to delete.")
 
 def deleteCTF(CTF,s,conn,c):
     try:

@@ -17,4 +17,4 @@ def list_chals(line ,socket ,c):
         rows=c.fetchall()
         format_output(socket,rows)
     else:
-        s.send(bytes("PRIVMSG %s :Please enter CTF name.\r\n" %CHAN ,"UTF-8"))
+        printChan(s,"Please enter CTF name.")

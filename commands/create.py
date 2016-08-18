@@ -13,7 +13,7 @@ def startcreatecmd(s,line,connection, c):
         else:
             s.send(getBannedMessageBytes())
     else:
-        s.send(bytes("PRIVMSG %s:Please enter CTF and challenge name\r\n" %CHAN,"UTF-8"))
+        printChan(s,"Please enter CTF and challenge name")
 
 def create(s,c,conn,CTF,challenge,fromCmd=True):
     try:
@@ -24,4 +24,4 @@ def create(s,c,conn,CTF,challenge,fromCmd=True):
         conn.commit()
         s.send(bytes("PRIVMSG %s :added challenge %s to %s\r\n" % (CHAN , challenge , CTF),"UTF-8"))
     except:
-        s.send(bytes("PRIVMSG %s :CTF doesnt exist , if you are certain it does spam NETWORKsecurity\r\n" % CHAN,"UTF-8"))
+        printChan(s,"CTF doesnt exist , if you are certain it does spam NETWORKsecurity")

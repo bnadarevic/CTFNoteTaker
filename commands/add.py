@@ -51,8 +51,7 @@ def startaddcmdparams(s,c,conn,user,line):
 
 def add_note(CTF,challenge,contributor,comment,c,conn,s,firstRun=True):
     print(CTF+"\n"+challenge+"\n"+contributor+"\n"+comment+"\n")
-    challenge=challenge.rstrip() #trailing whitespace bug fix
-    challenge=challenge.lstrip() #trailing whitespace bug fix
+    challenge=challenge.strip() #trailing whitespace bug fix
     try:
         c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID FROM ctf WHERE name=(?))))",(contributor,comment,challenge,CTF))
         conn.commit()

@@ -16,12 +16,12 @@ def startnewcmd(line,user,socket,connection, c):
             socket.send(getBannedMessageBytes())
             return False
     else:
-        socket.send(bytes("PRIVMSG %s :Please enter a CTF name after.\r\n" % CHAN,"UTF-8"))
+        printChan(s,"Please enter a CTF name after.")
 
 def startnew(CTF,s,conn,c):
     try:
         c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
         conn.commit()
-        s.send(bytes("PRIVMSG %s :%s created\r\n" % (CHAN,CTF),"UTF-8"))
+        printChan(s,CTF+" created!")
     except sqlite3.IntegrityError:
-        s.send(bytes("PRIVMSG %s :%s already exists\r\n" % (CHAN,CTF),"UTF-8"))
+        printChan(s,CTF+" already exists.")
