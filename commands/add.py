@@ -31,7 +31,12 @@ def startaddcmd(s,c,conn,user,line):
         s.send(bytes("PRIVMSG %s :Please enter CTF , challenge and prefix your note with note:\r\n" % CHAN,"UTF-8"))
 
 def startaddcmdparams(s,c,conn,user,line):
-    line = formatLineToMethodStyle(line)
+   
+    potentialline=formatLineToMethodStyle(line,s)
+    if(potentialline!=False):
+        line=potentialline
+    else:
+        return
     #Now I need to resplit by , and ignore \,
     for line2 in line:
         if(filter_msg(line2,s)==True):
