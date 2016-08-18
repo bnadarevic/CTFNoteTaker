@@ -18,11 +18,11 @@ from commands.add import *
 from commands.read import *
 
 def cmdParser(s,c,conn,user,line,cmd):
+    if(line[len(line)-1].lower() == "public"):
+        user = CHAN
+        del line[len(line)-1]
     if(cmd=="help"):
         if(len(line)>4):
-            if(line[4]=="public"):
-                help(s)
-            else:
                 help(s,user)
         else:
             help(s,user)
