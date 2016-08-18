@@ -39,11 +39,10 @@ def cmdParser(s,c,conn,user,line,cmd):
 
     elif(cmd=="create"):
         startcreatecmd(s,line,conn,c)
-
-
     elif(cmd=="add"):
         startaddcmd(s,c,conn,user,line)
-
+    elif(cmd.startswith("add(")):
+        startaddcmdparams(s,c,conn,user,line)
 
     elif(cmd=="read"):
         startreadcmd(user,s,c,line)

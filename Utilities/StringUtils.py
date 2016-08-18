@@ -48,7 +48,6 @@ def filter(msg):
     return banned
 
 def filter_msg(msg,s):
-    #This is getting called properly, but bytes not sending correctly
     if(filter(msg)):
         return True
     else:
@@ -71,3 +70,18 @@ def printMaster(socket, msg):
     for mast in MASTER:
         socket.send(bytes(("PRIVMSG %s :%s\r\n") % (mast,str(msg)),"UTF-8"))
         print(mast + " " + str(msg))
+"""
+Rejoins line[], removes first 3 irrelevant terms, then replaces all \, with |COMMA|, splits by ,switches |COMMA| back,
+and removes <CMDNAME>:( from code.
+"""
+def formatLineToMethodStyle(line):
+    line2 = " ".join(line[3:])
+    line2 = line2.replace(ESCAPECHAR + ",", ESCAPECOMMA)
+    line = line2.split(",")
+    line = [w.replace(ESCAPECOMMA, ",") for w in line]
+    if("(" in line[0]):
+        line[0] = line[0].split("(")[1]
+    if(")" in line[-1]):
+        line[-1] = (line[-1])[:-1]
+    line = list(map(str.strip, line))
+    return line

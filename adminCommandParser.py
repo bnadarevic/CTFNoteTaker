@@ -26,7 +26,7 @@ def adminCmdParser(s,c,conn,user,line,cmd):
 
 def userIsMaster(user):
     for mast in MASTER:
-        if(mast==user):
+        if(mast.lower()==user.lower()):
             return True
     return False
 
