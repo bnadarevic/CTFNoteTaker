@@ -17,7 +17,7 @@ from commands.create import *
 from commands.add import *
 from commands.read import *
 
-def cmdParser(c,conn,user,line,cmd):
+def cmdParser(user,line,cmd):
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
@@ -25,25 +25,25 @@ def cmdParser(c,conn,user,line,cmd):
         help(user)
 
     elif(cmd=="startnew"):
-        startnewcmd(line,user,conn,c)
+        startnewcmd(line,user)
 
 
     elif(cmd=="listchal"):
-        list_chals(line,c)
+        list_chals(line)
 
 
     elif(cmd=="listctf"):
-        list_CTFs(c)
+        list_CTFs()
 
     elif(cmd=="create"):
-        startcreatecmd(line,conn,c)
+        startcreatecmd(line)
     elif(cmd=="add"):
-        startaddcmd(c,conn,user,line)
+        startaddcmd(user,line)
     elif(cmd.startswith("add(")):
-        startaddcmdparams(c,conn,user,line)
+        startaddcmdparams(user,line)
 
     elif(cmd=="read"):
-        startreadcmd(user,c,line)
+        startreadcmd(user,line)
 
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails()

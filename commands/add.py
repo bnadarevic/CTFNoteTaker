@@ -5,10 +5,11 @@ import string
 import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
+from Utilities.dbUtils import *
 from commands.create import *
 from itertools import islice
 
-def startaddcmd(c,conn,user,line):
+def startaddcmd(user,line):
     if(len(line)>6):
 
         CTF=line[4]
@@ -24,14 +25,13 @@ def startaddcmd(c,conn,user,line):
         challenge=" ".join(challenge)
         if(filter_msg(note)==False):
             if(filter_msg(user)==False): #if we plan to print users
-                add_note(CTF,challenge,user,note,c,conn)
+                add_note(CTF,challenge,user,note)
         else:
             sendBannedMessage()
     else:
         printChan("Please enter CTF , challenge and prefix your note with note:")
 
-def startaddcmdparams(c,conn,user,line):
-
+def startaddcmdparams(user,line):
     potentialline=formatLineToMethodStyle(line)
     if(potentialline!=False):
         line=potentialline
@@ -51,9 +51,11 @@ def startaddcmdparams(c,conn,user,line):
             note += ", " + i
         line[2] = note
 
-    add_note(line[0],line[1],user,line[2],c,conn)
+    add_note(line[0],line[1],user,line[2])
 
-def add_note(CTF,challenge,contributor,comment,c,conn,firstRun=True):
+def add_note(CTF,challenge,contributor,comment,firstRun=True):
+    c = getC()
+    conn = getConn()
     print(CTF+"\n"+challenge+"\n"+contributor+"\n"+comment+"\n")
     challenge=challenge.strip() #trailing whitespace bug fix
     try:
@@ -62,5 +64,5 @@ def add_note(CTF,challenge,contributor,comment,c,conn,firstRun=True):
         printChan("Note added")
     except:
         if(firstRun):
-            create(c,conn,CTF,challenge,False)
-            add_note(CTF,challenge,contributor,comment,c,conn,False)
+            create(CTF,challenge,False)
+            add_note(CTF,challenge,contributor,comment,False)

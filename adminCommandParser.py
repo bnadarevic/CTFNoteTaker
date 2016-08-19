@@ -12,7 +12,7 @@ from adminCommands.deleteCTF import *
 
 
 #Some check for user permission
-def adminCmdParser(c,conn,user,line,cmd):
+def adminCmdParser(user,line,cmd):
     Perm = False
     print(line)
     if("MASTER" in ADMINCOMMANDMODE.upper()):
@@ -42,9 +42,9 @@ def adminCmdParser(c,conn,user,line,cmd):
     elif(cmd=="help"):
         adminHelp(user)
     elif(cmd=="quit"):
-        adminQuit(conn,user)
+        adminQuit(user)
     elif(cmd=="deletectf"):
-        adminDeleteCTF(c,conn,user,line)
+        adminDeleteCTF(user,line)
 
 def userIsMaster(user):
     for mast in MASTER:

@@ -5,18 +5,21 @@ import string
 import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
+from Utilities.dbUtils import *
 
-def startcreatecmd(line,connection, c):
+def startcreatecmd(line):
     if(len(line)>5):
         if(filter_msg(line[4])==False and filter_msg(" ".join(line[5:]))==False):
-            create(c,connection,line[4],line[5:])
+            create(line[4],line[5:])
         else:
             sendBannedMessage()
     else:
         printChan("Please enter CTF and challenge name")
 
-def create(c,conn,CTF,challenge,fromCmd=True):
+def create(CTF,challenge,fromCmd=True):
     try:
+        c = getC()
+        conn = getConn()
         if(fromCmd):
             challenge=" ".join(challenge)
         print(list(CTF))

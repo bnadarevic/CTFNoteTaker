@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-# modified ircecho.py https://gist.github.com/RobertSzkutak/1326452
-
 import sys
 import re
 import socket

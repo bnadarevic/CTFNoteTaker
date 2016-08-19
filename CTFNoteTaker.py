@@ -32,9 +32,9 @@ def handle():
             cmd=cmd[1:]
             user=(line[0])[1:line[0].index("!")]
             if(cmd.startswith(COMMANDPREFIX)):
-                cmdParser(Utilities.connections.c,Utilities.connections.conn,user,line,cmd[len(COMMANDPREFIX):])
+                cmdParser(user,line,cmd[len(COMMANDPREFIX):])
             elif(cmd.startswith(ADMINCOMMANDPREFIX)):
-                adminCmdParser(Utilities.connections.c,Utilities.connections.conn,user,line,cmd[len(ADMINCOMMANDPREFIX):])
+                adminCmdParser(user,line,cmd[len(ADMINCOMMANDPREFIX):])
 
 def pingpong(pong):
     Utilities.connections.s.send(bytes("PONG %s\r\n" % pong,"UTF-8"))
