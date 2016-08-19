@@ -7,6 +7,7 @@ import re
 import socket
 import string
 import sqlite3
+import Utilities.connections
 from Utilities.conf import *
 
 def filter(msg):
@@ -47,49 +48,51 @@ def filter(msg):
         banned = True
     return banned
 
-def filter_msg(msg,s):
+def filter_msg(msg):
     if(filter(msg)):
         return True
     else:
 	    return False
-def getBannedMessageBytes():
-    return bytes(("PRIVMSG %s : "+ BANNEDPHRASEMSG +"\r\n") % CHAN,"UTF-8")
+def sendBannedMessage(user=CHAN):
+    printUser(BANNEDPHRASEMSG,user)
 
-def printChan(socket, msg):
-    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,str(msg)),"UTF-8"))
+def printChan(msg):
+    Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,str(msg)),"UTF-8"))
     print(CHAN + " " + str(msg))
 
 """
-Parameters are: socket,msg,user
+Parameters are: msg,user
 """
-def printUser(socket, msg, user=CHAN):
-    socket.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
+def printUser(msg, user=CHAN):
+    Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
     print(user + " " + str(msg))
 
-def printMaster(socket, msg):
+def printMaster(msg):
     for mast in MASTER:
-        socket.send(bytes(("PRIVMSG %s :%s\r\n") % (mast,str(msg)),"UTF-8"))
+        Utilities.connections.s.send(bytes("PRIVMSG %s :%s\r\n" % (mast,str(msg)),"UTF-8"))
         print(mast + " " + str(msg))
 """
 Rejoins line[], removes first 3 irrelevant terms, then replaces all \, with |COMMA|, splits by ,switches |COMMA| back,
 and removes <CMDNAME>:( from code.
 """
-def formatLineToMethodStyle(line,s):
+def formatLineToMethodStyle(line):
     line2 = " ".join(line[3:])
     line2 = line2.replace(ESCAPECHAR + ",", ESCAPECOMMA)
     line = line2.split(",")
     line = [w.replace(ESCAPECOMMA, ",") for w in line]
     if("(" in line[0]):
         line[0] = line[0].split("(")[1]
-    
-        
+
+
     if(")" in line[-1]):
         line[-1] = (line[-1])[:-1]
     else:
-        s.send(bytes("PRIVMSG %s :ensure you put trailing parenthesis\r\n" % CHAN,"UTF-8"))
+        printChan("Ensure you put trailing parenthesis")
         return False
-       
+
     line = list(map(str.strip, line))
     print("sneeeek3:"+str(line)+"\n")
-        
+
     return line
+def printBytes(bytez):
+    Utilities.connections.s.send(bytez)

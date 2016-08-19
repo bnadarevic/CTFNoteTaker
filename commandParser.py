@@ -17,46 +17,43 @@ from commands.create import *
 from commands.add import *
 from commands.read import *
 
-def cmdParser(s,c,conn,user,line,cmd):
+def cmdParser(c,conn,user,line,cmd):
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
     if(cmd=="help"):
-        if(len(line)>4):
-                help(s,user)
-        else:
-            help(s,user)
+        help(user)
 
     elif(cmd=="startnew"):
-        startnewcmd(line,user,s,conn,c)
+        startnewcmd(line,user,conn,c)
 
 
     elif(cmd=="listchal"):
-        list_chals(line,s,c)
+        list_chals(line,c)
 
 
     elif(cmd=="listctf"):
-        list_CTFs(c,s)
+        list_CTFs(c)
 
     elif(cmd=="create"):
-        startcreatecmd(s,line,conn,c)
+        startcreatecmd(line,conn,c)
     elif(cmd=="add"):
-        startaddcmd(s,c,conn,user,line)
+        startaddcmd(c,conn,user,line)
     elif(cmd.startswith("add(")):
-        startaddcmdparams(s,c,conn,user,line)
+        startaddcmdparams(c,conn,user,line)
 
     elif(cmd=="read"):
-        startreadcmd(user,s,c,line)
+        startreadcmd(user,c,line)
 
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
-        join_chan_if_it_fails(s)
+        join_chan_if_it_fails()
 
-def help(s,user=CHAN):
-    printUser(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read [-v] <CTF> <chalname> , .quit <pass>",user)
-    printUser(s,"Do not use whitespace in CTF name(you can use it in challenge name)", user)
-    printUser(s,"Prefix your note with \"note:\" (without quotes)", user)
+def help(user=CHAN):
+    printUser(".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read [-v] <CTF> <chalname> ",user)
+    printUser("Do not use whitespace in CTF name(you can use it in challenge name)", user)
+    printUser("Prefix your note with \"note:\" (without quotes)", user)
     print("HELP\n")
 
-def join_chan_if_it_fails(s):
+def join_chan_if_it_fails():
     #patch because it doesnt join each time
-    s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
+    printBytes(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))

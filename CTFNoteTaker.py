@@ -8,6 +8,7 @@ import socket
 import string
 import sqlite3
 import traceback
+import Utilities.connections
 from Utilities.StringUtils import *
 from Utilities.conf import *
 from commandParser import *
@@ -16,7 +17,7 @@ from adminCommandParser import *
 def handle():
     print("GETTING BUFFER\n")
     global readbuffer
-    ircmsg=s.recv(1024)
+    ircmsg=Utilities.connections.s.recv(1024)
     readbuffer = readbuffer+ircmsg.decode("UTF-8")
     temp = str.split(readbuffer, "\n")
     readbuffer=temp.pop()
@@ -31,60 +32,31 @@ def handle():
             cmd=cmd[1:]
             user=(line[0])[1:line[0].index("!")]
             if(cmd.startswith(COMMANDPREFIX)):
-                cmdParser(s,c,conn,user,line,cmd[len(COMMANDPREFIX):])
+                cmdParser(Utilities.connections.c,Utilities.connections.conn,user,line,cmd[len(COMMANDPREFIX):])
             elif(cmd.startswith(ADMINCOMMANDPREFIX)):
-                adminCmdParser(s,c,conn,user,line,cmd[len(ADMINCOMMANDPREFIX):])
-
-
-def is_first_run():
-    firstRunFile = open("firstRun.conf","r")
-    data=firstRunFile.read()
-    data=data.rstrip()
-    if(data=="yes" or data==""):
-        
-        c.execute("CREATE TABLE ctf(ctfID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)")
-        c.execute("CREATE TABLE challenges(challengeID INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,problemtext TEXT,ctfID INT NOT NULL,FOREIGN KEY(ctfID) REFERENCES ctf(ctfID)ON DELETE CASCADE)")
-        c.execute("CREATE TABLE note(noteID INTEGER PRIMARY KEY AUTOINCREMENT,contributor TEXT NOT NULL,note TEXT NOT NULL,challengeID INT NOT NULL,FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)ON DELETE CASCADE)")
-        conn.commit()
-        firstRunFile.close()
-        firstRunFile = open("firstRun.conf","w+")
-        firstRunFile.write("no")
-        firstRunFile.close()
-        return True
-    else:
-        return False
+                adminCmdParser(Utilities.connections.c,Utilities.connections.conn,user,line,cmd[len(ADMINCOMMANDPREFIX):])
 
 def pingpong(pong):
-    s.send(bytes("PONG %s\r\n" % pong,"UTF-8"))
+    Utilities.connections.s.send(bytes("PONG %s\r\n" % pong,"UTF-8"))
     print("PONG\n")
 
-sqlite_file = "database.sqlite"
-conn = sqlite3.connect(sqlite_file)
-c=conn.cursor()
-if(is_first_run()):
-    c.close()
-    conn.close()
-    conn = sqlite3.connect(sqlite_file)
-    c=conn.cursor()
-
 readbuffer=""
-
-s=socket.socket()
-s.connect((HOST, PORT))
+Utilities.connections.init()
+Utilities.connections.s.connect((HOST, PORT))
 handle()
-s.send(bytes("NICK %s\r\n" % NICK, "UTF-8"))
-s.send(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
+Utilities.connections.s.send(bytes("NICK %s\r\n" % NICK, "UTF-8"))
+Utilities.connections.s.send(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
 handle()
-s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
-printMaster(s,"Hello Master")
+Utilities.connections.s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
+printMaster("Hello Master")
 
 while(1):
     try:
         handle()
     except:
         if("Keyboard" in str(sys.exc_info()[0])):
-            printChan(s, NICK + " is shutting down.")
+            printChan(NICK + " is shutting down.")
             break
         print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
-        printChan(s,"An internal error occured!")
-        printMaster(s,"Error " + str(traceback.format_exc()))
+        printChan("An internal error occured!")
+        printMaster("Error " + str(traceback.format_exc()))

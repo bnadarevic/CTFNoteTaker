@@ -8,7 +8,7 @@ from Utilities.StringUtils import *
 from commands.create import *
 from itertools import islice
 
-def startaddcmd(s,c,conn,user,line):
+def startaddcmd(c,conn,user,line):
     if(len(line)>6):
 
         CTF=line[4]
@@ -17,33 +17,33 @@ def startaddcmd(s,c,conn,user,line):
         note=re.findall(pattern," ".join(line[5:]))
         note=" ".join(note)
         if(note==""):
-            s.send(bytes("PRIVMSG %s :prefix your note with note:\r\n" % CHAN,"UTF-8"))
+            sendChan("prefix your note with note:")
             return
 
         challenge=re.findall(pattern2," ".join(line[5:]))
         challenge=" ".join(challenge)
-        if(filter_msg(note,s)==False):
-            if(filter_msg(user,s)==False): #if we plan to print users
-                add_note(CTF,challenge,user,note,c,conn,s)
+        if(filter_msg(note)==False):
+            if(filter_msg(user)==False): #if we plan to print users
+                add_note(CTF,challenge,user,note,c,conn)
         else:
-            s.send(getBannedMessageBytes())
+            sendBannedMessage()
     else:
-        s.send(bytes("PRIVMSG %s :Please enter CTF , challenge and prefix your note with note:\r\n" % CHAN,"UTF-8"))
+        printChan("Please enter CTF , challenge and prefix your note with note:")
 
-def startaddcmdparams(s,c,conn,user,line):
-   
-    potentialline=formatLineToMethodStyle(line,s)
+def startaddcmdparams(c,conn,user,line):
+
+    potentialline=formatLineToMethodStyle(line)
     if(potentialline!=False):
         line=potentialline
     else:
         return
     #Now I need to resplit by , and ignore \,
     for line2 in line:
-        if(filter_msg(line2,s)==True):
-            s.send(getBannedMessageBytes())
+        if(filter_msg(line2)==True):
+            sendBannedMessage()
             return
-    if(filter_msg(user,s)):
-        s.send(getBannedMessageBytes())
+    if(filter_msg(user)):
+        sendBannedMessage()
         return
     if(len(line) > 3):
         note = line[2]
@@ -51,16 +51,16 @@ def startaddcmdparams(s,c,conn,user,line):
             note += ", " + i
         line[2] = note
 
-    add_note(line[0],line[1],user,line[2],c,conn,s)
+    add_note(line[0],line[1],user,line[2],c,conn)
 
-def add_note(CTF,challenge,contributor,comment,c,conn,s,firstRun=True):
+def add_note(CTF,challenge,contributor,comment,c,conn,firstRun=True):
     print(CTF+"\n"+challenge+"\n"+contributor+"\n"+comment+"\n")
     challenge=challenge.strip() #trailing whitespace bug fix
     try:
         c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID FROM ctf WHERE name=(?))))",(contributor,comment,challenge,CTF))
         conn.commit()
-        s.send(bytes("PRIVMSG %s :Note added\r\n" % CHAN,"UTF-8"))
+        printChan("Note added")
     except:
         if(firstRun):
-            create(s,c,conn,CTF,challenge,False)
-            add_note(CTF,challenge,contributor,comment,c,conn,s,False)
+            create(c,conn,CTF,challenge,False)
+            add_note(CTF,challenge,contributor,comment,c,conn,False)

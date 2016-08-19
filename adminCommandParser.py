@@ -12,7 +12,7 @@ from adminCommands.deleteCTF import *
 
 
 #Some check for user permission
-def adminCmdParser(s,c,conn,user,line,cmd):
+def adminCmdParser(c,conn,user,line,cmd):
     Perm = False
     print(line)
     if("MASTER" in ADMINCOMMANDMODE.upper()):
@@ -26,25 +26,25 @@ def adminCmdParser(s,c,conn,user,line,cmd):
                     Perm = True
                     del line[4]
             else:
-                printUser(s,"You must enter the password.")
+                printUser("You must enter the password.")
                 return
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
 
     if(Perm == False):
-        printUser(s,"You don't have enough perms to use this command!")
+        printUser("You don't have enough perms to use this command!")
         return
 
     cmd = cmd.lower()
     if(cmd=="error"):
-        throwErrorAdminCMD(s,c,conn,user,line)
+        throwErrorAdminCMD(user,line)
     elif(cmd=="help"):
-        adminHelp(s,user)
+        adminHelp(user)
     elif(cmd=="quit"):
-        adminQuit(s,conn,user)
+        adminQuit(conn,user)
     elif(cmd=="deletectf"):
-        adminDeleteCTF(s,c,conn,user,line)
+        adminDeleteCTF(c,conn,user,line)
 
 def userIsMaster(user):
     for mast in MASTER:
@@ -52,8 +52,9 @@ def userIsMaster(user):
             return True
     return False
 
-def adminHelp(s,user):
-    printUser(s,"<var> denotes optional parameter, [var] denotes required parameter",user)
-    printUser(s,"~error - Generates a sample error for testing purposes.",user)
-    printUser(s,"~quit - Shuts me down :(",user)
-    printUser(s,"~deleteCTF <-v> [ctfname] - deletes a CTF ",user)
+def adminHelp(user):
+    printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
+    printUser("If password mode is enabled, the password must be the first parameter.")
+    printUser("~error - Generates a sample error for testing purposes.",user)
+    printUser("~quit - Shuts me down :(",user)
+    printUser("~deleteCTF <-v> [ctfname] - deletes a CTF ",user)

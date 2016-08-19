@@ -6,7 +6,7 @@ import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
 
-def format_output(s,rows,user=CHAN):
+def format_output(rows,user=CHAN):
     print("rows:"+str(rows))
     output=[]
     for i in rows:
@@ -15,20 +15,20 @@ def format_output(s,rows,user=CHAN):
     print(output)
     if(output!=""):
         output=", ".join(output)
-        printUser(s,output,user) #I want to init output just in case there is something we missed in spamfilter or so
+        printUser(output,user) #I want to init output just in case there is something we missed in spamfilter or so
     else:
-        printUser(s,"Its empty :(",user)
+        printUser("Its empty :(",user)
 
-def format_output_multirow(s,rows,user=CHAN):
+def format_output_multirow(rows,user=CHAN):
     for row in rows:
         toPrint = []
         for item in row:
             toPrint.append(str(item))
-        printUser(s,toPrint,user)
+        printUser(toPrint,user)
 
-def pretty_format_output(s,rows,user=CHAN):
+def pretty_format_output(rows,user=CHAN):
     output=[]
     for i in rows:
         output.append(": ".join(str(j) for j in i))
     for i in output:
-        printUser(s,i,user)
+        printUser(i,user)
