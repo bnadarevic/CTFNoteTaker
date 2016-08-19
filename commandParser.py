@@ -52,7 +52,7 @@ def cmdParser(s,c,conn,user,line,cmd):
         join_chan_if_it_fails(s)
 
 def help(s,user=CHAN):
-    printUser(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read <CTF> <chalname> , .quit <pass>",user)
+    printUser(s,".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read [-v] <CTF> <chalname> , .quit <pass>",user)
     printUser(s,"Do not use whitespace in CTF name(you can use it in challenge name)", user)
     printUser(s,"Prefix your note with \"note:\" (without quotes)", user)
     print("HELP\n")
