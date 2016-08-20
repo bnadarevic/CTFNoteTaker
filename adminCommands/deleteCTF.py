@@ -9,24 +9,20 @@ from Utilities.dbUtils import *
 from commands.formatoutput import *
 
 def adminDeleteCTF(user,line):
+    verbose = False
+    if("-v" in line):
+        del line[line.index('-v')]
+        verbose = True
+    if("verbose" in line):
+        del line[line.index('verbose')]
+        verbose = True
     if(len(line) > 4):
-        if(line[4].startswith("-v") or line[4].startswith("verbose")):
-            if(len(line)>5):
-                if(filter_msg(line[5])==False):
-                    deleteCTF(line[5],user,True)
-                    return True
-                else:
-                    sendBannedMessage()
-                    return False
-            else:
-                printUser("Please enter a CTF name to delete",user)
+        if(filter_msg(line[4])==False):
+            deleteCTF(line[4],user,verbose)
+            return True
         else:
-            if(filter_msg(line[4])==False):
-                deleteCTF(line[4],user)
-                return True
-            else:
-                sendBannedMessage()
-                return False
+            sendBannedMessage(user)
+            return False
     else:
         printUser("Please enter a CTF name to delete",user)
 #Need to add Useful print messages here.
@@ -52,8 +48,6 @@ def deleteCTF(CTF,user,verbose=False):
                 format_output_multirow(c.fetchall(),user)
 
             c.execute("DELETE FROM note WHERE challengeID = "+rowString+";")
-            if(verbose):
-                printUser("Notes deleted for challenge " + (title[2:-3]),user)
 
         c.execute("DELETE FROM challenges WHERE ctfID = (?);",(ctfID,))
 
@@ -61,5 +55,7 @@ def deleteCTF(CTF,user,verbose=False):
 
         conn.commit()
         printUser("deleted " + CTF + ", along with all of its corresponding challenges and notes.",user)
+        printMaster(user + " deleted CTF: " + CTF + ", along with all of its corresponding challenges and notes.")
     except sqlite3.IntegrityError:
         printUser("Strange error in deleting CTF", user)
+        printMaster("Error " + str(traceback.format_exc()))

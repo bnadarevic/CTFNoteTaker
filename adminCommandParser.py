@@ -9,6 +9,8 @@ from Utilities.permissionUtils import *
 from adminCommands.error import *
 from adminCommands.quit import *
 from adminCommands.deleteCTF import *
+from adminCommands.deleteChal import *
+from adminCommands.deleteNote import *
 
 
 #Some check for user permission
@@ -45,6 +47,10 @@ def adminCmdParser(user,line,cmd):
         adminQuit(user)
     elif(cmd=="deletectf"):
         adminDeleteCTF(user,line)
+    elif(cmd.startswith("deletechal")):
+        adminDeleteChal(user,line)
+    elif(cmd.startswith("deletenote")):
+        adminDeleteNote(user,line)
 
 def userIsMaster(user):
     for mast in MASTER:
@@ -55,6 +61,9 @@ def userIsMaster(user):
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
     printUser("If password mode is enabled, the password must be the first parameter.")
+    printUser("If you add 'public' as the final parameter, all output will be put in the main chat.")
     printUser("~error - Generates a sample error for testing purposes.",user)
     printUser("~quit - Shuts me down :(",user)
     printUser("~deleteCTF <-v> [ctfname] - deletes a CTF ",user)
+    printUser("~deleteChal <-v> [ctfname] [chalname] - deletes a challenge from a given CTF",user)
+    printUser("~deleteNote [ctfname] - deletes a Note ",user)

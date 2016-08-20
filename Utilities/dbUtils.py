@@ -38,3 +38,11 @@ def ChalExists(CTFName,chal):
         return False
     else:
         return True
+
+def noteExists(noteID):
+    Utilities.connections.c.execute("SELECT count(*) FROM note WHERE noteID=(?);",(noteID,))
+    count = Utilities.connections.c.fetchone()[0]
+    if(count == 0):
+        return False
+    else:
+        return True
