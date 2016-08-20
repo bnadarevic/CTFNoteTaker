@@ -17,7 +17,7 @@ from adminCommandParser import *
 def handle():
     print("GETTING BUFFER\n")
     global readbuffer
-    ircmsg=Utilities.connections.s.recv(1024)
+    ircmsg=Utilities.connections.s.recv(RECVBLOCKSIZE)
     readbuffer = readbuffer+ircmsg.decode("UTF-8")
     temp = str.split(readbuffer, "\n")
     readbuffer=temp.pop()
@@ -44,10 +44,10 @@ readbuffer=""
 Utilities.connections.init()
 Utilities.connections.s.connect((HOST, PORT))
 handle()
-Utilities.connections.s.send(bytes("NICK %s\r\n" % NICK, "UTF-8"))
-Utilities.connections.s.send(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
+printBytes(bytes("NICK %s\r\n" % NICK, "UTF-8"))
+printBytes(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
 handle()
-Utilities.connections.s.send(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
+printBytes(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
 printMaster("Hello Master")
 
 while(1):

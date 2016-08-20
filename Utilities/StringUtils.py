@@ -66,9 +66,11 @@ def printUser(msg, user=CHAN):
     print(user + " " + str(msg))
 
 def printMaster(msg):
+    arr = str(msg).split("\n")
     for mast in MASTER:
-        Utilities.connections.s.send(bytes("PRIVMSG %s :%s\r\n" % (mast,str(msg)),"UTF-8"))
-        print(mast + " " + str(msg))
+        for line in arr:
+            printUser(str(line), mast)
+            print(line)
 """
 Rejoins line[], removes first 3 irrelevant terms, then replaces all \, with |COMMA|, splits by ,switches |COMMA| back,
 and removes <CMDNAME>:( from code.
