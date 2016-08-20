@@ -60,8 +60,8 @@ def userIsMaster(user):
 
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
-    printUser("If password mode is enabled, the password must be the first parameter.")
-    printUser("If you add 'public' as the final parameter, all output will be put in the main chat.")
+    printUser("If password mode is enabled, the password must be the first parameter.",user)
+    printUser("If you add 'public' as the final parameter, all output will be put in the main chat.",user)
     printUser("~error - Generates a sample error for testing purposes.",user)
     printUser("~quit - Shuts me down :(",user)
     printUser("~deleteCTF <-v> [ctfname] - deletes a CTF ",user)
