@@ -15,11 +15,15 @@ def list_chals(line):
         CTF=line[4:]
         CTF=CTF[0]
         print(CTF)
-        c.execute("SELECT title FROM challenges WHERE ctfID=(SELECT ctfID FROM ctf WHERE name=(?));",(CTF,))
-        rows=c.fetchall()
-        if(len(rows) > 1):
-            format_output(rows)
+        if(CTFExists(CTF)):
+            c.execute("SELECT title FROM challenges WHERE ctfID=(?);",(getCTFIDByName(CTF),))
+            rows=c.fetchall()
+            if(len(rows) > 0):
+                format_output(rows)
+            else:
+                #detect this in the future
+                printChan("This CTF has no challenges?")
         else:
-            printChan("Enter a valid CTF name.")
+            printChan("This CTF does not exist")
     else:
         printChan("Please enter CTF name.")

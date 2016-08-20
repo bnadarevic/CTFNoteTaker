@@ -58,11 +58,19 @@ def add_note(CTF,challenge,contributor,comment,firstRun=True):
     conn = getConn()
     print(CTF+"\n"+challenge+"\n"+contributor+"\n"+comment+"\n")
     challenge=challenge.strip() #trailing whitespace bug fix
+    if(not CTFExists(CTF)):
+        printChan("CTF Does not exist")
+        return
     try:
-        c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(SELECT challengeID FROM challenges WHERE title=(?) AND ctfID=(SELECT ctfID FROM ctf WHERE name=(?))))",(contributor,comment,challenge,CTF))
-        conn.commit()
-        printChan("Note added")
+        if(ChalExists(CTF,challenge)):
+            ctfID = getCTFIDByName(CTF)
+            chalID = getChalID(CTF,challenge,ctfID)
+            c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(contributor,comment,chalID))
+            conn.commit()
+            printChan("Note added")
+        else:
+            if(firstRun):
+                create(CTF,challenge, False)
+                add_note(CTF,challenge,contributor,comment,False)
     except:
-        if(firstRun):
-            create(CTF,challenge,False)
-            add_note(CTF,challenge,contributor,comment,False)
+        print("A strange error occured.")

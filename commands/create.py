@@ -23,8 +23,11 @@ def create(CTF,challenge,fromCmd=True):
         if(fromCmd):
             challenge=" ".join(challenge)
         print(list(CTF))
-        c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(SELECT ctfID FROM ctf WHERE name=(?)))",(challenge,CTF))
-        conn.commit()
-        printChan("added challenge %s to %s" % (challenge , CTF))
+        if(not ChalExists(CTF,challenge)):
+            c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(?));",(challenge,getCTFIDByName(CTF)))
+            conn.commit()
+            printChan("added challenge %s to %s" % (challenge , CTF))
+        else:
+            printChan("Challenge already exists")
     except:
         printChan("CTF doesnt exist , if you are certain it does spam NETWORKsecurity")

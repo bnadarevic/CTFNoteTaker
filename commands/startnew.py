@@ -23,8 +23,11 @@ def startnew(CTF):
     try:
         c = getC()
         conn = getConn()
-        c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
-        conn.commit()
-        printChan(CTF+" created!")
+        if(not CTFExists(CTF)):
+            c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
+            conn.commit()
+            printChan(CTF+" created!")
+        else:
+            printChan(CTF+" already Exists!")
     except sqlite3.IntegrityError:
         printChan(CTF+" already exists.")
