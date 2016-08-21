@@ -96,3 +96,7 @@ def formatLineToMethodStyle(line):
     return line
 def printBytes(bytez):
     Utilities.connections.s.send(bytez)
+
+def closeSocket():
+    Utilities.connections.s.shutdown(socket.SHUT_RDWR)
+    Utilities.connections.s.close()

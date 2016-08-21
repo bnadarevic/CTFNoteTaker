@@ -8,3 +8,9 @@ def check_pass(password):
         return True
     else:
         return False
+
+def userIsMaster(user):
+    for mast in MASTER:
+        if(mast.lower()==user.lower()):
+            return True
+    return False

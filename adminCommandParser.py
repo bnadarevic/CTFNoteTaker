@@ -11,6 +11,7 @@ from adminCommands.quit import *
 from adminCommands.deleteCTF import *
 from adminCommands.deleteChal import *
 from adminCommands.deleteNote import *
+from adminCommands.restart import *
 
 
 #Some check for user permission
@@ -49,14 +50,10 @@ def adminCmdParser(user,line,cmd):
         adminDeleteCTF(user,line)
     elif(cmd.startswith("deletechal")):
         adminDeleteChal(user,line)
-    elif(cmd.startswith("deletenote")):
+    elif(cmd == ("deletenote")):
         adminDeleteNote(user,line)
-
-def userIsMaster(user):
-    for mast in MASTER:
-        if(mast.lower()==user.lower()):
-            return True
-    return False
+    elif(cmd == ("restart")):
+        adminRestart(user)
 
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
