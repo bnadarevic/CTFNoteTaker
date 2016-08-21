@@ -48,6 +48,7 @@ printBytes(bytes("NICK %s\r\n" % NICK, "UTF-8"))
 printBytes(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
 handle()
 printBytes(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
+handle()
 printMaster("Hello Master")
 
 while(1):
@@ -56,6 +57,7 @@ while(1):
     except:
         if("Keyboard" in str(sys.exc_info()[0])):
             printChan(NICK + " is shutting down.")
+            closeSocket()
             break
         print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
         printChan("An internal error occured!")

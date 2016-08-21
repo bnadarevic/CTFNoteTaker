@@ -53,7 +53,7 @@ def cmdParser(user,line,cmd):
         startDeleteNoteCmd(user,line)
 
 def help(user=CHAN):
-    printUser(".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read [-v] <CTF> <chalname> ",user)
+    printUser(".help [public], .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, or .add(CTF,Challenge,Note) .read [-v] <CTF> <chalname> ",user)
     printUser("Do not use whitespace in CTF name(you can use it in challenge name)", user)
     printUser("Prefix your note with \"note:\" (without quotes)", user)
     print("HELP\n")

@@ -10,7 +10,5 @@ from Utilities.dbUtils import *
 
 def adminRestart(user):
     printMaster(user + " is restarting me")
-    printChan("Restarting")
-    closeSocket()
-    getConn().close()
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    printChan("Restarting...")
+    restartSocket()

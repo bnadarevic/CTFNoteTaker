@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import re
 import socket
 import string
 import sqlite3
+import time
 import Utilities.connections
 from Utilities.conf import *
 
@@ -100,3 +102,10 @@ def printBytes(bytez):
 def closeSocket():
     Utilities.connections.s.shutdown(socket.SHUT_RDWR)
     Utilities.connections.s.close()
+
+def restartSocket():
+    closeSocket()
+    Utilities.connections.conn.close()
+    print("Restarting...")
+    time.sleep(5)
+    os.execl(sys.executable, sys.executable, *sys.argv)
