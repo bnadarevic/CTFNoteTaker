@@ -16,11 +16,13 @@ from commands.listctfs import *
 from commands.create import *
 from commands.add import *
 from commands.read import *
+from commands.deleteNote import *
 
 def cmdParser(user,line,cmd):
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
+    cmd = cmd.lower()
     if(cmd=="help"):
         help(user)
 
@@ -47,6 +49,8 @@ def cmdParser(user,line,cmd):
 
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails()
+    elif(cmd=="deletenote"):#pm to bot if it connects but doesnt join channel
+        startDeleteNoteCmd(user,line)
 
 def help(user=CHAN):
     printUser(".help , .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, .read [-v] <CTF> <chalname> ",user)

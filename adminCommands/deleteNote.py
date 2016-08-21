@@ -34,7 +34,7 @@ def deleteNoteADMIN(noteID,user):
             conn.commit()
             printUser("deleted note",user)
         else:
-            printUser("No note exists with noteID " + noteID)
+            printUser("No note exists with noteID " + str(noteID))
     except sqlite3.IntegrityError:
         printUser("Strange error in deleting note", user)
         printMaster("Error " + str(traceback.format_exc()))
