@@ -4,6 +4,7 @@ import socket
 import string
 import sqlite3
 import traceback
+import logging
 
 logger = logging.getLogger("CTFNoteTaker")
 

@@ -16,6 +16,7 @@ def adminExportCTF(user,line):
             if(is_directory_traversal(line[5])):
                 sendBannedMessage(user)
                 printMaster(user + " attempted Directory Traversal.")
+                
                 return False
             exportCTF(line[4],user,line[5])
             return True

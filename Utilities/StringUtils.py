@@ -117,4 +117,6 @@ def is_directory_traversal(file_name):
     requested_path = os.path.relpath(file_name, start=current_directory)
     requested_path = os.path.abspath(requested_path)
     common_prefix = os.path.commonprefix([requested_path, current_directory])
+    if(common_prefix != current_directory):
+        logger.error("DIRECTORY TRAVERSAL WAS ATTEMPTED WITH: " + file_name)
     return common_prefix != current_directory
