@@ -13,6 +13,7 @@ from adminCommands.deleteChal import *
 from adminCommands.deleteNote import *
 from adminCommands.restart import *
 from adminCommands.exportCTF import *
+from adminCommands.importCTF import *
 
 
 #Some check for user permission
@@ -57,6 +58,8 @@ def adminCmdParser(user,line,cmd):
         adminRestart(user)
     elif(cmd.startswith("export")):
         adminExportCTF(user,line)
+    elif(cmd.startswith("import")):
+        adminImportCTF(user,line)
 
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
