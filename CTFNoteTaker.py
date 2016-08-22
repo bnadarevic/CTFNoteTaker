@@ -7,6 +7,7 @@ import re
 import socket
 import string
 import sqlite3
+import logging
 import traceback
 import Utilities.connections
 from Utilities.StringUtils import *
@@ -15,7 +16,7 @@ from Utilities.loggingUtils import *
 from commandParser import *
 from adminCommandParser import *
 
-def handle():
+def handle(logLine = False):
     print("GETTING BUFFER\n")
     global readbuffer
     ircmsg=Utilities.connections.s.recv(RECVBLOCKSIZE)
@@ -23,9 +24,11 @@ def handle():
     temp = str.split(readbuffer, "\n")
     readbuffer=temp.pop()
     for line in temp:
-        print(line)
+        #print(line)
         line = str.rstrip(line)
         line = str.split(line)#Space delimitted by default.
+        if(logLine):
+            logger.debug(line)
         if(line[0] == "PING"):
             pingpong(line[1])
         elif(line[1]=="PRIVMSG"):
@@ -33,15 +36,19 @@ def handle():
             cmd=cmd[1:]
             user=(line[0])[1:line[0].index("!")]
             if(cmd.startswith(COMMANDPREFIX)):
+                logger.info(str(line))
                 cmdParser(user,line,cmd[len(COMMANDPREFIX):])
             elif(cmd.startswith(ADMINCOMMANDPREFIX)):
+                logger.info(str(line))
                 adminCmdParser(user,line,cmd[len(ADMINCOMMANDPREFIX):])
 
 def pingpong(pong):
-    Utilities.connections.s.send(bytes("PONG %s\r\n" % pong,"UTF-8"))
+    printBytes(bytes("PONG %s\r\n" % pong,"UTF-8"))
+    logger.debug("PONG")
     print("PONG\n")
 
 setupLogging()
+logger = logging.getLogger("CTFNoteTaker")
 readbuffer=""
 Utilities.connections.init()
 Utilities.connections.s.connect((HOST, PORT))
@@ -64,3 +71,4 @@ while(1):
         print("BZZZZZZZZZZZZZZZTTTTT *******    ERROR   *** " + str(traceback.format_exc()))
         printChan("An internal error occured!")
         printMaster("Error " + str(traceback.format_exc()))
+        logger.exception("ERROR:")

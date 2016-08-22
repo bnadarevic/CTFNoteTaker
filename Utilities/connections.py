@@ -5,6 +5,8 @@ import string
 import sqlite3
 import traceback
 
+logger = logging.getLogger("CTFNoteTaker")
+
 def is_first_run():
     firstRunFile = open("firstRun.conf","r")
     data=firstRunFile.read()
@@ -15,6 +17,7 @@ def is_first_run():
         c.execute("CREATE TABLE challenges(challengeID INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,problemtext TEXT,ctfID INT NOT NULL,FOREIGN KEY(ctfID) REFERENCES ctf(ctfID)ON DELETE CASCADE)")
         c.execute("CREATE TABLE note(noteID INTEGER PRIMARY KEY AUTOINCREMENT,contributor TEXT NOT NULL,note TEXT NOT NULL,timestamp INTEGER(4) NOT NULL DEFAULT (strftime('%s','now')),challengeID INT NOT NULL,FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)ON DELETE CASCADE)")
         conn.commit()
+        logger.info("Generated Tables for first run")
         firstRunFile.close()
         firstRunFile = open("firstRun.conf","w+")
         firstRunFile.write("no")
