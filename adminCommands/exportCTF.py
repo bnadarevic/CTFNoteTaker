@@ -16,7 +16,7 @@ def adminExportCTF(user,line):
             if(is_directory_traversal(line[5])):
                 sendBannedMessage(user)
                 printMaster(user + " attempted Directory Traversal.")
-                
+
                 return False
             exportCTF(line[4],user,line[5])
             return True
@@ -63,8 +63,8 @@ def exportCTF(CTF,user,filename=""):
             challenges = c.fetchall()
             for challenge in challenges:
                 f.write("CHAL:"+challenge[1]+"\n")
-                c.execute("SELECT contributor,note FROM note WHERE challengeID = (?);",(challenge[0],))
+                c.execute("SELECT contributor,note,timestamp FROM note WHERE challengeID = (?);",(challenge[0],))
                 notes = c.fetchall()
                 for note in notes:
-                    f.write("NOTE:"+note[0]+","+note[1]+"\n")
+                    f.write("NOTE:"+note[0]+","+note[1]+","+str(note[2])+"\n")
     printUser("CTF " + CTF + " exported with name " + filename,user)

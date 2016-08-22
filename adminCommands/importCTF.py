@@ -60,8 +60,12 @@ def importCTF(user,filename):
                 if(ctfID > -1):
                     note = line[5:-1]
                     noteArr = note.split(",")
-                    c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(noteArr[0],noteArr[1],chalID))
-                    conn.commit()
+                    if(len(noteArr)==2):
+                        c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(noteArr[0],noteArr[1],chalID))
+                        conn.commit()
+                    elif(len(noteArr) == 3):
+                        c.execute("INSERT INTO note (contributor,note,timestamp,challengeID) VALUES((?),(?),(?),(?))",(noteArr[0],noteArr[1],noteArr[2],chalID))
+                        conn.commit()
 
     if(CTFsAdded > 0):
         printUser(str(CTFsAdded) + " CTF's have been added.",user)
