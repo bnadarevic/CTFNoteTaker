@@ -12,5 +12,5 @@ def adminQuit(user):
     printMaster(user + " Shutdown the bot.")
     printBytes(bytes("QUIT : shutting down. \r\n","UTF-8"))
     closeSocket()
-    getConn.close()
+    getConn().close()
     raise KeyboardInterrupt
