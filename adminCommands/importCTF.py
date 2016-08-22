@@ -27,8 +27,12 @@ def adminImportCTF(user,line):
 
 #Need to add Useful print messages here.
 def importCTF(user,filename):
+    if(filename.endswith(".exp")):
+        filename = filename[:-4]
     filepath = "exports/" + filename + ".exp"
-    os.path.isfile(filepath)
+    if(not os.path.isfile(filepath)):
+        printUser("File not found ",user)
+        return
     c = getC()
     conn = getConn()
     CTFsAdded = 0
