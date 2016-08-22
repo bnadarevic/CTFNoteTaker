@@ -63,7 +63,7 @@ def printChan(msg):
 Parameters are: msg,user
 """
 def printUser(msg, user=CHAN):
-    msg  = msg.replace('\n','\nPRIVMSG ' + user + ' :')
+    msg  = str(msg).replace('\n','\nPRIVMSG ' + user + ' :')
     Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
     print(user + " " + str(msg))
 
