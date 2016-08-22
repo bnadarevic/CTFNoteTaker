@@ -40,17 +40,30 @@ def exportCTF(CTF,user,filename=""):
 
     filepath = "exports/" + filename + ".exp"
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    ctfID = getCTFIDByName(CTF)
     c = getC()
     conn = getConn()
+    CTFArr = []
+    if(CTF.lower() == "all"):
+        c.execute("SELECT name FROM ctf;")
+        ctfs = c.fetchall()
+        for row in ctfs:
+            CTFArr.append(row)
+    else:
+        if(CTFExists(CTF)):
+            CTFArr.append([CTF])
+        else:
+            printUser("CTF " + CTF + " does not exist", user)
+            return
     with open(filepath, "w") as f:
-        f.write("CTF:"+CTF + '\n')
-        c.execute("SELECT challengeID,title FROM challenges WHERE ctfID = (?);",(ctfID,))
-        challenges = c.fetchall()
-        for challenge in challenges:
-            f.write("CHAL:"+challenge[1]+"\n")
-            c.execute("SELECT contributor,note FROM note WHERE challengeID = (?);",(challenge[0],))
-            notes = c.fetchall()
-            for note in notes:
-                f.write("NOTE:"+note[0]+","+note[1]+"\n")
+        for ctf in CTFArr:
+            ctfID = getCTFIDByName(ctf[0])
+            f.write("CTF:"+ctf[0] + '\n')
+            c.execute("SELECT challengeID,title FROM challenges WHERE ctfID = (?);",(ctfID,))
+            challenges = c.fetchall()
+            for challenge in challenges:
+                f.write("CHAL:"+challenge[1]+"\n")
+                c.execute("SELECT contributor,note FROM note WHERE challengeID = (?);",(challenge[0],))
+                notes = c.fetchall()
+                for note in notes:
+                    f.write("NOTE:"+note[0]+","+note[1]+"\n")
     printUser("CTF " + CTF + " exported with name " + filename,user)

@@ -32,7 +32,6 @@ def importCTF(user,filename):
     c = getC()
     conn = getConn()
     CTFsAdded = 0
-    brokeEarly = False
     with open(filepath, "r") as f:
         ctfID = -1
         chalID = -1
@@ -45,21 +44,23 @@ def importCTF(user,filename):
                     ctfID = getCTFIDByName(CTF)
                     CTFsAdded+=1
                 else:
-                    printUser("CTF " + CTF + " already exists, aborting any further imports.",user)
-                    brokeEarly = True
-                    break
+                    printUser("CTF " + CTF + " already exists, aborting importing this CTF.",user)
+                    ctfID = -1
             if(line.startswith("CHAL:")):
-                chal = line[5:-1]
-                c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(?));",(chal,ctfID))
-                conn.commit()
-                chalID = getChalID("",chal,ctfID)
+                if(ctfID > -1):
+                    chal = line[5:-1]
+                    c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(?));",(chal,ctfID))
+                    conn.commit()
+                    chalID = getChalID("",chal,ctfID)
             if(line.startswith("NOTE:")):
-                note = line[5:-1]
-                noteArr = note.split(",")
-                c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(noteArr[0],noteArr[1],chalID))
-                conn.commit()
+                if(ctfID > -1):
+                    note = line[5:-1]
+                    noteArr = note.split(",")
+                    c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(noteArr[0],noteArr[1],chalID))
+                    conn.commit()
 
     if(CTFsAdded > 0):
         printUser(str(CTFsAdded) + " CTF's have been added.",user)
-    if(not brokeEarly):
         printUser( filename + " has been imported",user)
+    else:
+        printUser("No CTF's have been imported",user)
