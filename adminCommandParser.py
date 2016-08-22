@@ -12,6 +12,7 @@ from adminCommands.deleteCTF import *
 from adminCommands.deleteChal import *
 from adminCommands.deleteNote import *
 from adminCommands.restart import *
+from adminCommands.exportCTF import *
 
 
 #Some check for user permission
@@ -54,13 +55,17 @@ def adminCmdParser(user,line,cmd):
         adminDeleteNote(user,line)
     elif(cmd == ("restart")):
         adminRestart(user)
+    elif(cmd.startswith("export")):
+        adminExportCTF(user,line)
 
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)
     printUser("If password mode is enabled, the password must be the first parameter.",user)
     printUser("If you add 'public' as the final parameter, all output will be put in the main chat.",user)
-    printUser("~error - Generates a sample error for testing purposes.",user)
-    printUser("~quit - Shuts me down :(",user)
     printUser("~deleteCTF <-v> [ctfname] - deletes a CTF ",user)
     printUser("~deleteChal <-v> [ctfname] [chalname] - deletes a challenge from a given CTF",user)
     printUser("~deleteNote [ctfname] - deletes a Note ",user)
+    printUser("~exportCTF [ctfname] <filename> - Generates a sample error for testing purposes.",user)
+    printUser("~error - Generates a sample error for testing purposes.",user)
+    printUser("~quit - Shuts me down :(",user)
+    printUser("~restart - Restarts me!",user)

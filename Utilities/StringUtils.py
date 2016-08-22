@@ -109,3 +109,10 @@ def restartSocket():
     print("Restarting...")
     time.sleep(5)
     os.execl(sys.executable, sys.executable, *sys.argv)
+
+def is_directory_traversal(file_name):
+    current_directory = os.path.abspath(os.curdir)
+    requested_path = os.path.relpath(file_name, start=current_directory)
+    requested_path = os.path.abspath(requested_path)
+    common_prefix = os.path.commonprefix([requested_path, current_directory])
+    return common_prefix != current_directory

@@ -1,4 +1,5 @@
 **.pyc
+**.exp
 *.sqlite
 **.pyo
 **.pyd
