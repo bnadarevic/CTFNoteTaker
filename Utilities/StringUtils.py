@@ -57,22 +57,20 @@ def sendBannedMessage(user=CHAN):
     printUser(BANNEDPHRASEMSG,user)
 
 def printChan(msg):
-    Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (CHAN,str(msg)),"UTF-8"))
-    print(CHAN + " " + str(msg))
+    printUser(msg)
 
 """
 Parameters are: msg,user
 """
 def printUser(msg, user=CHAN):
+    msg  = msg.replace('\n','\nPRIVMSG ' + user + ' :')
     Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
     print(user + " " + str(msg))
 
 def printMaster(msg):
     arr = str(msg).split("\n")
     for mast in MASTER:
-        for line in arr:
-            printUser(str(line), mast)
-            print(line)
+        printUser(str(msg), mast)
 """
 Rejoins line[], removes first 3 irrelevant terms, then replaces all \, with |COMMA|, splits by ,switches |COMMA| back,
 and removes <CMDNAME>:( from code.

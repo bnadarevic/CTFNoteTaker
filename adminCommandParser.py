@@ -42,24 +42,24 @@ def adminCmdParser(user,line,cmd):
         return
 
     cmd = cmd.lower()
-    if(cmd=="error"):
-        throwErrorAdminCMD(user,line)
-    elif(cmd=="help"):
-        adminHelp(user)
-    elif(cmd=="quit"):
-        adminQuit(user)
-    elif(cmd=="deletectf"):
+    if(cmd=="deletectf"):
         adminDeleteCTF(user,line)
     elif(cmd.startswith("deletechal")):
         adminDeleteChal(user,line)
-    elif(cmd == ("deletenote")):
+    elif(cmd == "deletenote"):
         adminDeleteNote(user,line)
-    elif(cmd == ("restart")):
-        adminRestart(user)
     elif(cmd.startswith("export")):
         adminExportCTF(user,line)
     elif(cmd.startswith("import")):
         adminImportCTF(user,line)
+    elif(cmd=="help"):
+        adminHelp(user)
+    elif(cmd=="quit"):
+        adminQuit(user)
+    elif(cmd=="restart"):
+        adminRestart(user)
+    elif(cmd=="error"):
+        throwErrorAdminCMD(user,line)
 
 def adminHelp(user):
     printUser("<var> denotes optional parameter, [var] denotes required parameter",user)

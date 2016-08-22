@@ -11,6 +11,7 @@ import traceback
 import Utilities.connections
 from Utilities.StringUtils import *
 from Utilities.conf import *
+from Utilities.loggingUtils import *
 from commandParser import *
 from adminCommandParser import *
 
@@ -40,6 +41,7 @@ def pingpong(pong):
     Utilities.connections.s.send(bytes("PONG %s\r\n" % pong,"UTF-8"))
     print("PONG\n")
 
+setupLogging()
 readbuffer=""
 Utilities.connections.init()
 Utilities.connections.s.connect((HOST, PORT))

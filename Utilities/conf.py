@@ -5,7 +5,8 @@ NICK = "CTFNoteTaker"
 IDENT = "CTF_"
 REALNAME = "Hal Glados"
 MASTER = ["valar_dragon", "NETWORKsecurity", "CTFNoteTaker"] #NO HUMAN WILL RULE ME!
-RECVBLOCKSIZE = 1024
+RECVBLOCKSIZE = 2048
+LOGGING = "ON"
 
 BANNEDPHRASEMSG = "You used a banned phrase!"
 ADMINCOMMANDMODE = "MASTER,PASSWORD"
