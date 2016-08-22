@@ -40,14 +40,14 @@ def deleteCTF(CTF,user,verbose=False):
             rowString = (str(row))[1:-2]
             title = ""
             if(verbose):
-                c.execute("SELECT title FROM challenges WHERE challengeID = "+rowString+";")
+                c.execute("SELECT title FROM challenges WHERE challengeID =(?)", (rowstring,))
                 #We need a format method for c.fetchone() for multiple columns 1 row.
                 title = str(c.fetchone())[2:-3]
                 printUser("Deleting the following notes from challenge " + title + ": ",user)
-                c.execute("SELECT contributor,note FROM note WHERE challengeID = "+rowString+";")
+                c.execute("SELECT contributor,note FROM note WHERE challengeID = (?)",(rowstring,))
                 format_output_multirow(c.fetchall(),user)
 
-            c.execute("DELETE FROM note WHERE challengeID = "+rowString+";")
+            c.execute("DELETE FROM note WHERE challengeID = (?) ",(rowstring,))
 
         c.execute("DELETE FROM challenges WHERE ctfID = (?);",(ctfID,))
 

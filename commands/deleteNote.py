@@ -33,7 +33,7 @@ def deleteNoteREG(noteID,user):
                 printChan("Deleting Note:")
                 c.execute("SELECT contributor,note FROM note where noteID = (?)",(noteID,))
                 format_output_multirow(c.fetchall())
-                c.execute("DELETE FROM note WHERE noteID = (?);",(noteID,))
+                c.execute("DELETE FROM note WHERE noteID = (?)",(noteID,))
                 conn.commit()
                 printChan("deleted note")
             else:

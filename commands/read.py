@@ -29,8 +29,8 @@ def read_note(CTF,challenge,verbose=False):
         return
     chalID = getChalID(CTF,challenge)
     if(verbose):
-        selectquery = "noteID," + selectquery
-    c.execute("SELECT " + selectquery + " FROM note WHERE challengeID=(?)" , (chalID,))
+        selectquery ="*"
+    c.execute("SELECT (?) FROM note WHERE challengeID=(?)" , (selectquery,chalID))
     rows=c.fetchall()
     if(len(rows) > 0):
         pretty_format_output(rows)
