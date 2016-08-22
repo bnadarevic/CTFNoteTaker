@@ -27,7 +27,7 @@ def handle(logLine = False):
         #print(line)
         line = str.rstrip(line)
         line = str.split(line)#Space delimitted by default.
-        if(logLine):
+        if(logLine or LOGGING.lower() == "off"):
             logger.debug(line)
         if(line[0] == "PING"):
             pingpong(line[1])
