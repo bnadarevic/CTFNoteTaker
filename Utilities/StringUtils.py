@@ -4,11 +4,14 @@ import os
 import sys
 import re
 import socket
+import logging
 import string
 import sqlite3
 import time
 import Utilities.connections
 from Utilities.conf import *
+
+logger = logging.getLogger("CTFNoteTaker.StringUtils")
 
 def filter(msg):
     regexes = [ # Creating regular experession list of banned and glined phrases.
@@ -65,7 +68,7 @@ Parameters are: msg,user
 def printUser(msg, user=CHAN):
     msg  = str(msg).replace('\n','\nPRIVMSG ' + user + ' :')
     Utilities.connections.s.send(bytes(("PRIVMSG %s :%s\r\n") % (user,str(msg)),"UTF-8"))
-    print(user + " " + str(msg))
+    logger.debug(user + " " + str(msg))
 
 def printMaster(msg):
     arr = str(msg).split("\n")
@@ -105,6 +108,7 @@ def restartSocket():
     closeSocket()
     Utilities.connections.conn.close()
     print("Restarting...")
+    logger.info("Restarting...")
     time.sleep(5)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
