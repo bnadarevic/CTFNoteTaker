@@ -1,7 +1,7 @@
 HOST = "irc.hackthissite.org"
 PORT = 6667
 CHAN="#bots"
-NICK = "CTFNoteTaker_"
+NICK = "CTFNoteTaker"
 IDENT = "CTF_"
 REALNAME = "Hal Glados"
 MASTER = ["valar_dragon", "NETWORKsecurity", "CTFNoteTaker"] #NO HUMAN WILL RULE ME!
