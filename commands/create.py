@@ -30,4 +30,4 @@ def create(CTF,challenge,fromCmd=True):
         else:
             printChan("Challenge already exists")
     except:
-        printChan("CTF doesnt exist , if you are certain it does spam NETWORKsecurity")
+        printChan("CTF doesnt exist , if you are certain it does spam bot operator")

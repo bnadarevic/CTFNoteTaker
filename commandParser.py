@@ -17,6 +17,7 @@ from commands.create import *
 from commands.add import *
 from commands.read import *
 from commands.deleteNote import *
+from commands.notify import *
 
 def cmdParser(user,line,cmd):
     if(line[len(line)-1].lower() == "public"):
@@ -49,8 +50,12 @@ def cmdParser(user,line,cmd):
 
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails()
+        
     elif(cmd=="deletenote"):#pm to bot if it connects but doesnt join channel
         startDeleteNoteCmd(user,line)
+        
+    elif(cmd=="notify"):
+        startnotifycmd(user,line)
 
 def help(user=CHAN):
     printUser(".help [public], .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, or .add(CTF,Challenge,Note) .read [-v] <CTF> <chalname> ",user)
