@@ -1,5 +1,6 @@
 HOST = "irc.hackthissite.org"
-PORT = 6667
+PORT = 7000
+SSL = True
 CHAN="#bots"
 NICK = "CTFNoteTaker"
 IDENT = "CTF_"

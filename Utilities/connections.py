@@ -1,10 +1,12 @@
 import sys
+import ssl
 import re
 import socket
 import string
 import sqlite3
 import traceback
 import logging
+from Utilities.conf import *
 
 logger = logging.getLogger("CTFNoteTaker")
 
@@ -40,5 +42,11 @@ def init():
         conn = sqlite3.connect(sqlite_file)
         c=conn.cursor()
 
+    global unwrappedSocket
     global s
-    s=socket.socket()
+    unwrappedSocket = socket.socket()
+    if(SSL):
+        s = ssl.wrap_socket(unwrappedSocket)
+    else:
+        s = unwrappedSocket
+    s.connect((HOST,PORT))

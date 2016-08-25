@@ -27,8 +27,10 @@ def handle(logLine = False):
         #print(line)
         line = str.rstrip(line)
         line = str.split(line)#Space delimitted by default.
-        if(logLine or LOGGING.lower() == "off"):
+        if(logLine or (LOGGING.lower() == "off")):
+            #Perhaps make a formatter for these.
             logger.debug(line)
+            print(line)
         if(line[0] == "PING"):
             pingpong(line[1])
         elif(line[1]=="PRIVMSG"):
@@ -51,13 +53,12 @@ setupLogging()
 logger = logging.getLogger("CTFNoteTaker")
 readbuffer=""
 Utilities.connections.init()
-Utilities.connections.s.connect((HOST, PORT))
-handle()
+handle(True)
 printBytes(bytes("NICK %s\r\n" % NICK, "UTF-8"))
 printBytes(bytes("USER %s %s Wolf :%s\r\n" % (IDENT, HOST, REALNAME), "UTF-8"))
-handle()
+handle(True)
 printBytes(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
-handle()
+handle(True)
 printMaster("Hello Master")
 
 while(1):
