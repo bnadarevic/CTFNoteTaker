@@ -17,7 +17,7 @@ def startnewcmd(line,user):
             sendBannedMessage()
             return False
     else:
-        printChan("Please enter a CTF name")
+        printUser("Please enter a CTF name",line[2])
 
 def startnew(CTF):
     try:
@@ -26,8 +26,8 @@ def startnew(CTF):
         if(not CTFExists(CTF)):
             c.execute("INSERT INTO ctf(name) VALUES((?))",(CTF,))
             conn.commit()
-            printChan(CTF+" created!")
+            printUser(CTF+" created!",line[2])
         else:
-            printChan(CTF+" already Exists!")
+            printUser(CTF+" already Exists!",line[2])
     except sqlite3.IntegrityError:
-        printChan(CTF+" already exists.")
+        printUser(CTF+" already exists.",line[2])

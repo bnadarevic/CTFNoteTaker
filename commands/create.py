@@ -14,7 +14,7 @@ def startcreatecmd(line):
         else:
             sendBannedMessage()
     else:
-        printChan("Please enter CTF and challenge name")
+        printUser("Please enter CTF and challenge name",line[2])
 
 def create(CTF,challenge,fromCmd=True):
     try:
@@ -26,8 +26,8 @@ def create(CTF,challenge,fromCmd=True):
         if(not ChalExists(CTF,challenge)):
             c.execute("INSERT INTO challenges(title,ctfID) VALUES((?),(?));",(challenge,getCTFIDByName(CTF)))
             conn.commit()
-            printChan("added challenge %s to %s" % (challenge , CTF))
+            printUser("added challenge %s to %s" % (challenge , CTF),line[2])
         else:
-            printChan("Challenge already exists")
+            printUser("Challenge already exists",line[2])
     except:
-        printChan("CTF doesnt exist , if you are certain it does spam bot operator")
+        printUser("CTF doesnt exist , if you are certain it does spam bot operator",line[2])

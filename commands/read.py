@@ -17,15 +17,15 @@ def startreadcmd(user,line):
     if(len(line)>5):
         read_note(line[4]," ".join(line[5:]),verbose)
     else:
-        printChan("Please enter CTF and challenge.")
+        printUser("Please enter CTF and challenge.",line[2])
 def read_note(CTF,challenge,verbose=False):
     c = getC()
     selectquery = "contributor,note"
     if(not CTFExists(CTF)):
-        printChan("CTF Doesn't Exist")
+        printUser("CTF Doesn't Exist",line[2])
         return
     if(not ChalExists(CTF,challenge)):
-        printChan("Challenge Doesn't exist")
+        printUser("Challenge Doesn't exist",line[2])
         return
     chalID = getChalID(CTF,challenge)
     if(verbose):
@@ -36,4 +36,4 @@ def read_note(CTF,challenge,verbose=False):
         pretty_format_output(rows)
     else:
         #In future have it detect if valid chal name was given.
-        printChan("This challenge has no notes. Go work on it ;)")
+        printUser("This challenge has no notes. Go work on it ;)",line[2])

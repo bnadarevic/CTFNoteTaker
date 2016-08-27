@@ -22,8 +22,8 @@ def list_chals(line):
                 format_output(rows)
             else:
                 #detect this in the future
-                printChan("This CTF has no challenges?")
+                printUser("This CTF has no challenges?",line[2])
         else:
-            printChan("This CTF does not exist")
+            printUser("This CTF does not exist",line[2])
     else:
-        printChan("Please enter CTF name.")
+        printUser("Please enter CTF name.",line[2])

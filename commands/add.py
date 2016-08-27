@@ -18,7 +18,7 @@ def startaddcmd(user,line):
         note=re.findall(pattern," ".join(line[5:]))
         note=" ".join(note)
         if(note==""):
-            sendChan("prefix your note with note:")
+            printUser("prefix your note with note:",line[2])
             return
 
         challenge=re.findall(pattern2," ".join(line[5:]))
@@ -29,7 +29,7 @@ def startaddcmd(user,line):
         else:
             sendBannedMessage()
     else:
-        printChan("Please enter CTF , challenge and prefix your note with note:")
+        printUser("Please enter CTF , challenge and prefix your note with note:",line[2])
 
 def startaddcmdparams(user,line):
     potentialline=formatLineToMethodStyle(line)
@@ -59,18 +59,15 @@ def add_note(CTF,challenge,contributor,comment,firstRun=True):
     print(CTF+"\n"+challenge+"\n"+contributor+"\n"+comment+"\n")
     challenge=challenge.strip() #trailing whitespace bug fix
     if(not CTFExists(CTF)):
-        printChan("CTF Does not exist")
+        printUser("CTF Does not exist",line[2])
         return
-    try:
-        if(ChalExists(CTF,challenge)):
-            ctfID = getCTFIDByName(CTF)
-            chalID = getChalID(CTF,challenge,ctfID)
-            c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(contributor,comment,chalID))
-            conn.commit()
-            printChan("Note added")
-        else:
-            if(firstRun):
-                create(CTF,challenge, False)
-                add_note(CTF,challenge,contributor,comment,False)
-    except:
-        print("A strange error occured.")
+    if(ChalExists(CTF,challenge)):
+        ctfID = getCTFIDByName(CTF)
+        chalID = getChalID(CTF,challenge,ctfID)
+        c.execute("INSERT INTO note (contributor,note,challengeID) VALUES((?),(?),(?))",(contributor,comment,chalID))
+        conn.commit()
+        printUser("Note added",line[2])
+    else:
+        if(firstRun):
+            create(CTF,challenge, False)
+            add_note(CTF,challenge,contributor,comment,False)

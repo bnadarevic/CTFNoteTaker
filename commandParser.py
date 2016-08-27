@@ -23,7 +23,13 @@ def cmdParser(user,line,cmd):
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
+    else:
+        if(line[2].lower() != CHAN.lower()):
+            user = NICK
     cmd = cmd.lower()
+
+
+
     if(cmd=="help"):
         help(user)
 
@@ -36,7 +42,7 @@ def cmdParser(user,line,cmd):
 
 
     elif(cmd=="listctf"):
-        list_CTFs()
+        list_CTFs(line)
 
     elif(cmd=="create"):
         startcreatecmd(line)
@@ -50,10 +56,10 @@ def cmdParser(user,line,cmd):
 
     elif(cmd=="joinfail"):#pm to bot if it connects but doesnt join channel
         join_chan_if_it_fails()
-        
+
     elif(cmd=="deletenote"):#pm to bot if it connects but doesnt join channel
         startDeleteNoteCmd(user,line)
-        
+
     elif(cmd=="notify"):
         startnotifycmd(user,line)
 

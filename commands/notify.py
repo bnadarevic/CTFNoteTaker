@@ -8,16 +8,16 @@ from Utilities.StringUtils import *
 from Utilities.dbUtils import *
 
 def startnotifycmd(user,line):
-    
-    if(len(line)>4):       
+
+    if(len(line)>4):
         state=line[4]
         if(state.upper()=="ON" or state.upper()=="OFF"):
             notifymanage(user,state)
         else:
-            printChan("parameters are ON or OFF")
+            printUser("parameters are ON or OFF",line[2])
     else:
-        printChan("USAGE:.notify ON/OFF")
-        
+        printUser("USAGE:.notify ON/OFF",line[2])
+
 def notifymanage(user,state):
     c=getC()
     conn=getConn()
@@ -25,23 +25,16 @@ def notifymanage(user,state):
         try:
             c.execute("INSERT INTO users(user,state) VALUES((?),(?))",(user,state))
             conn.commit()
-            printChan("User has been added")
+            printUser("User has been added",line[2])
         except:
-            printChan("error has occured!!!")
+            printUser("error has occured!!!",line[2])
     else:
         try:
             c.execute("UPDATE users SET state = (?) WHERE user = (?)",(state,user))
             conn.commit()
             if(state.upper()=="ON"):
-                printChan("notifications have been turned on")
+                printUser("notifications have been turned on",line[2])
             else:
-                printChan("notifications have been turned off")
+                printUser("notifications have been turned off",line[2])
         except:
-            printChan("Error has occured!!!")
-            
-                
-                
-        
-        
-        
-        
+            printUser("Error has occured!!!",line[2])

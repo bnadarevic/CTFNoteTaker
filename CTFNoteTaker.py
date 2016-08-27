@@ -60,6 +60,8 @@ handle(True)
 printBytes(bytes("JOIN %s\r\n" % CHAN,"UTF-8"))
 handle(True)
 printMaster("Hello Master")
+for x in range(0, 10):
+    handle(True)
 
 while(1):
     try:
