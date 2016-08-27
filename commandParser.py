@@ -24,8 +24,8 @@ def cmdParser(user,line,cmd):
         user = CHAN
         del line[len(line)-1]
     else:
-        if(line[2].lower() != CHAN.lower()):
-            user = NICK
+        if(line[2].lower() == CHAN.lower()):
+            user = CHAN
     cmd = cmd.lower()
 
 
