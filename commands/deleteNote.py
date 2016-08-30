@@ -15,11 +15,11 @@ def startDeleteNoteCmd(user,line):
                 noteID = int(line[4])
                 deleteNoteREG(noteID,user)
             except ValueError:
-                printUser("You didn't enter a valid number for the noteID",line[2])
+                printUser("You didn't enter a valid number for the noteID",user)
         else:
             sendBannedMessage(user)
     else:
-        printUser("Missing noteID",line[2])
+        printUser("Missing noteID",user)
 #Need to add Useful print messages here.
 def deleteNoteREG(noteID,user):
     try:
@@ -30,16 +30,16 @@ def deleteNoteREG(noteID,user):
             row = c.fetchone()
             contributor = row[0]
             if(user.strip()==contributor.strip()):
-                printUser("Deleting Note:",line[2])
+                printUser("Deleting Note:",user)
                 c.execute("SELECT contributor,note FROM note where noteID = (?)",(noteID,))
                 format_output_multirow(c.fetchall())
                 c.execute("DELETE FROM note WHERE noteID = (?)",(noteID,))
                 conn.commit()
-                printUser("deleted note",line[2])
+                printUser("deleted note",user)
             else:
                 printUser("You did not create this note.")
         else:
-            printUser("No note exists with noteID " + str(noteID),line[2])
+            printUser("No note exists with noteID " + str(noteID),user)
     except sqlite3.IntegrityError:
-        printUser("Strange error in deleting note",line[2])
+        printUser("Strange error in deleting note",user)
         printMaster("Error " + str(traceback.format_exc()))

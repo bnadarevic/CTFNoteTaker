@@ -120,3 +120,6 @@ def is_directory_traversal(file_name):
     if(common_prefix != current_directory):
         logger.error("DIRECTORY TRAVERSAL WAS ATTEMPTED WITH: " + file_name)
     return common_prefix != current_directory
+
+def getUser(line):
+    return ((line[0])[1:line[0].index("!")])

@@ -14,6 +14,7 @@ from adminCommands.deleteNote import *
 from adminCommands.restart import *
 from adminCommands.exportCTF import *
 from adminCommands.importCTF import *
+from adminCommands.sudo import *
 
 
 #Some check for user permission
@@ -52,6 +53,8 @@ def adminCmdParser(user,line,cmd):
         adminExportCTF(user,line)
     elif(cmd.startswith("import")):
         adminImportCTF(user,line)
+    elif(cmd=="sudo"):
+        adminSudo(user,line)
     elif(cmd=="help"):
         adminHelp(user)
     elif(cmd=="quit"):
@@ -70,6 +73,7 @@ def adminHelp(user):
     printUser("~deleteNote [ctfname] - deletes a Note ",user)
     printUser("~exportCTF [ctfname] <filename> - Exports the CTF, use all instead of ctfname to export all ctfs.",user)
     printUser("~importCTF [filename] - Imports all the CTF's from a given file.",user)
+    printUser("~sudo [user] [cmd] - Runs a regular command as a given user. ",user)
     printUser("~error - Generates a sample error for testing purposes.",user)
     printUser("~quit - Shuts me down :(",user)
     printUser("~restart - Restarts me!",user)

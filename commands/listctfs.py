@@ -8,8 +8,8 @@ from Utilities.StringUtils import *
 from Utilities.dbUtils import *
 from commands.formatoutput import *
 
-def list_CTFs(line):
+def list_CTFs(user,line):
     c = getC()
     c.execute("SELECT name FROM ctf")
     rows=c.fetchall()
-    format_output(rows,line[2])
+    format_output(rows,user)

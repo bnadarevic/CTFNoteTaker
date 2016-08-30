@@ -8,7 +8,7 @@ from Utilities.StringUtils import *
 from commands.formatoutput import *
 from Utilities.dbUtils import *
 
-def list_chals(line):
+def list_chals(user,line):
     if(len(line)>4):
         c = getC()
         #"SELECT title FROM challenge, ctf WHERE ctf.ctfID = challenge.ctfID and ctf.name = (?);
@@ -19,11 +19,11 @@ def list_chals(line):
             c.execute("SELECT title FROM challenges WHERE ctfID=(?);",(getCTFIDByName(CTF),))
             rows=c.fetchall()
             if(len(rows) > 0):
-                format_output(rows)
+                format_output(rows,user)
             else:
                 #detect this in the future
-                printUser("This CTF has no challenges?",line[2])
+                printUser("This CTF has no challenges?",user)
         else:
-            printUser("This CTF does not exist",line[2])
+            printUser("This CTF does not exist",user)
     else:
-        printUser("Please enter CTF name.",line[2])
+        printUser("Please enter CTF name.",user)

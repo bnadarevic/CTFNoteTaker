@@ -36,7 +36,7 @@ def handle(logLine = False):
         elif(line[1]=="PRIVMSG"):
             cmd=line[3]
             cmd=cmd[1:]
-            user=(line[0])[1:line[0].index("!")]
+            user=getUser(line)
             if(cmd.startswith(COMMANDPREFIX)):
                 logger.info(str(line))
                 cmdParser(user,line,cmd[len(COMMANDPREFIX):])
@@ -50,7 +50,7 @@ def pingpong(pong):
     print("PONG\n")
 
 setupLogging()
-logger = logging.getLogger("CTFNoteTaker")
+logger = logging.getLogger("CTFNoteTaker.main")
 readbuffer=""
 Utilities.connections.init()
 handle(True)

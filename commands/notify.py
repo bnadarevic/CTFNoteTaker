@@ -14,9 +14,9 @@ def startnotifycmd(user,line):
         if(state.upper()=="ON" or state.upper()=="OFF"):
             notifymanage(user,state)
         else:
-            printUser("parameters are ON or OFF",line[2])
+            printUser("parameters are ON or OFF",user)
     else:
-        printUser("USAGE:.notify ON/OFF",line[2])
+        printUser("USAGE:.notify ON/OFF",user)
 
 def notifymanage(user,state):
     c=getC()
@@ -25,16 +25,16 @@ def notifymanage(user,state):
         try:
             c.execute("INSERT INTO users(user,state) VALUES((?),(?))",(user,state))
             conn.commit()
-            printUser("User has been added",line[2])
+            printUser("User has been added",user)
         except:
-            printUser("error has occured!!!",line[2])
+            printUser("error has occured!!!",user)
     else:
         try:
             c.execute("UPDATE users SET state = (?) WHERE user = (?)",(state,user))
             conn.commit()
             if(state.upper()=="ON"):
-                printUser("notifications have been turned on",line[2])
+                printUser("notifications have been turned on",user)
             else:
-                printUser("notifications have been turned off",line[2])
+                printUser("notifications have been turned off",user)
         except:
-            printUser("Error has occured!!!",line[2])
+            printUser("Error has occured!!!",user)

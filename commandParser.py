@@ -38,14 +38,14 @@ def cmdParser(user,line,cmd):
 
 
     elif(cmd=="listchal"):
-        list_chals(line)
+        list_chals(user,line)
 
 
     elif(cmd=="listctf"):
-        list_CTFs(line)
+        list_CTFs(user,line)
 
     elif(cmd=="create"):
-        startcreatecmd(line)
+        startcreatecmd(user,line)
     elif(cmd=="add"):
         startaddcmd(user,line)
     elif(cmd.startswith("add(")):

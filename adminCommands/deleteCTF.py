@@ -18,7 +18,7 @@ def adminDeleteCTF(user,line):
         verbose = True
     if(len(line) > 4):
         if(filter_msg(line[4])==False):
-            deleteCTF(line[4],user,verbose)
+            deleteCTF(line[4],user,line,verbose)
             return True
         else:
             sendBannedMessage(user)
@@ -26,7 +26,7 @@ def adminDeleteCTF(user,line):
     else:
         printUser("Please enter a CTF name to delete",user)
 #Need to add Useful print messages here.
-def deleteCTF(CTF,user,verbose=False):
+def deleteCTF(CTF,user,line,verbose=False):
     try:
         c = getC()
         conn = getConn()
@@ -55,7 +55,7 @@ def deleteCTF(CTF,user,verbose=False):
 
         conn.commit()
         printUser("deleted " + CTF + ", along with all of its corresponding challenges and notes.",user)
-        printMaster(user + " deleted CTF: " + CTF + ", along with all of its corresponding challenges and notes.")
+        printMaster(getUser(line) + " deleted CTF: " + CTF + ", along with all of its corresponding challenges and notes.")
     except sqlite3.IntegrityError:
         printUser("Strange error in deleting CTF", user)
         printMaster("Error " + str(traceback.format_exc()))
