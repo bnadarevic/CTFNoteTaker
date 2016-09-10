@@ -9,6 +9,7 @@ import string
 import sqlite3
 import logging
 import traceback
+import time
 import Utilities.connections
 from Utilities.StringUtils import *
 from Utilities.conf import *
@@ -33,6 +34,17 @@ def handle(logLine = False):
             print(line)
         if(line[0] == "PING"):
             pingpong(line[1])
+        if(line[1]=="QUIT" or line[1]=="PART"):
+            
+            
+            logoutTime=int(time.time())
+            notifylog(getUser(line),logoutTime)
+            
+        if(line[1]=="JOIN"):
+            user=getUser(line) 
+            
+            
+            
         elif(line[1]=="PRIVMSG"):
             cmd=line[3]
             cmd=cmd[1:]

@@ -61,7 +61,7 @@ def cmdParser(user,line,cmd):
         startDeleteNoteCmd(user,line)
 
     elif(cmd=="notify"):
-        startnotifycmd(user,line)
+        startnotifycmd(user,getUser(line),line)
 
 def help(user=CHAN):
     printUser(".help [public], .startnew <CTF> , .listchal <CTF> , .listctf , .create <CTF> <chalname> , .add <CTF> <chalname> <note>, or .add(CTF,Challenge,Note) .read [-v] <CTF> <chalname> ",user)

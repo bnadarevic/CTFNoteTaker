@@ -15,7 +15,7 @@ def format_output(rows,user=CHAN):
     print(output)
     if(output!=""):
         output=", ".join(output)
-        printUser(output,user) #I want to init output just in case there is something we missed in spamfilter or so
+        printUser(output,user)
     else:
         printUser("Its empty :(",user)
 
