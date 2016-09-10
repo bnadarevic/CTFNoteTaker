@@ -6,6 +6,7 @@ import sqlite3
 from Utilities.conf import *
 from Utilities.StringUtils import *
 from Utilities.dbUtils import *
+from commands.formatoutput import *
 
 #printuser is print location
 #user is user you store in db
@@ -51,15 +52,32 @@ def notifylog(user,logoutTime):
     if(userExists(user)==False):        
         return
     else:
-        printChan("weeeeee user exists")
+        
         c.execute("SELECT state FROM users WHERE user=(?)",(user,))
         state=c.fetchone()[0]
         if(state.upper()=="ON"):
             c.execute("UPDATE users SET lastLogout=(?) WHERE user=(?)",(logoutTime,user))
             conn.commit()
-            printChan("logout time added")
+            
         else:
             return
+
+def notifyjoin(user):
+    c=getC()
+    if(userExists(user)==False):
+        return
         
+    else:
+        c.execute("SELECT state FROM users WHERE user=(?)",(user,))
+        state=c.fetchone()[0]
+        if(state.upper()=="OFF"):
+            return
+        else:
+            
+            c.execute("SELECT contributor,note FROM note WHERE timestamp>(SELECT lastLogout FROM users WHERE user=(?))",(user,))
+            rows=c.fetchall()
+            pretty_format_output(rows,user)
+        
+    
         
     

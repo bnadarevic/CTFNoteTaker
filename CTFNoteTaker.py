@@ -42,7 +42,7 @@ def handle(logLine = False):
             
         if(line[1]=="JOIN"):
             user=getUser(line) 
-            
+            notifyjoin(user)
             
             
         elif(line[1]=="PRIVMSG"):
