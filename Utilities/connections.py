@@ -10,33 +10,33 @@ from Utilities.conf import *
 
 logger = logging.getLogger("CTFNoteTaker")
 
-def is_first_run():
-    firstRunFile = open("firstRun.conf","r")
-    data=firstRunFile.read()
+def first_run():
+    schema = ""
+    with open('schema', 'r') as schema_file:
+        schema = schema_file.read()
+    for line in schema.split(';'):
+        c.execute(line)
+    conn.commit()
+    logger.info("Generated Tables for first run")
+    firstRunFile = open("firstRun.conf","w+")
+    firstRunFile.write("no")
     firstRunFile.close()
-    data=data.rstrip()
-    if(data=="yes" or data==""):
-        schema = ""
-        with open('schema', 'r') as schema_file:
-            schema = schema_file.read()
-        for line in schema.split(';'):
-            c.execute(line)
-        conn.commit()
-        logger.info("Generated Tables for first run")
-        firstRunFile = open("firstRun.conf","w+")
-        firstRunFile.write("no")
-        firstRunFile.close()
-        return True
-    else:
-        return False
 
 def init():
     sqlite_file = "database.sqlite"
+    firstRun = False
+    try:
+        with open(sqlite_file) as file:
+            pass
+    except IOError as e: #Either file doesn't exist, or no read perms 
+        firstRun = True
+
     global conn
     conn = sqlite3.connect(sqlite_file)
     global c
     c=conn.cursor()
-    if(is_first_run()):
+    if(firstRun):
+        first_run()
         c.close()
         conn.close()
         conn = sqlite3.connect(sqlite_file)
