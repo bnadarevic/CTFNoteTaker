@@ -15,11 +15,11 @@ def is_first_run():
     data=firstRunFile.read()
     data=data.rstrip()
     if(data=="yes" or data==""):
-
-        c.execute("CREATE TABLE ctf(ctfID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)")
-        c.execute("CREATE TABLE challenges(challengeID INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,problemtext TEXT,ctfID INT NOT NULL,FOREIGN KEY(ctfID) REFERENCES ctf(ctfID)ON DELETE CASCADE)")
-        c.execute("CREATE TABLE note(noteID INTEGER PRIMARY KEY AUTOINCREMENT,contributor TEXT NOT NULL,note TEXT NOT NULL,timestamp INTEGER(4) NOT NULL DEFAULT (strftime('%s','now')),challengeID INT NOT NULL,FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)ON DELETE CASCADE)")
-        c.execute("CREATE TABLE users(uid INTEGER PRIMARY KEY AUTOINCREMENT,user TEXT NOT NULL,state TEXT,lastLogout INTEGER(4))")
+        schema = ""
+        with open('schema', 'r') as schema_file:
+            schema = schema_file.read()
+        for line in schema.split(';'):
+            c.execute(line)
         conn.commit()
         logger.info("Generated Tables for first run")
         firstRunFile.close()
