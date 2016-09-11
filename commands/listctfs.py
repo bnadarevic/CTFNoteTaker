@@ -12,7 +12,7 @@ def list_CTFs(user,line):
     c = getC()
     c.execute("SELECT name FROM ctf")
     rows=c.fetchall()
-	if(len(rows)>0):
+    if(len(rows)>0):
         format_output(rows,user)
     else:
         printUser("0 CTF's in database, you can create one with .startnew!",user)
