@@ -13,6 +13,7 @@ logger = logging.getLogger("CTFNoteTaker")
 def is_first_run():
     firstRunFile = open("firstRun.conf","r")
     data=firstRunFile.read()
+    firstRunFile.close()
     data=data.rstrip()
     if(data=="yes" or data==""):
         schema = ""
@@ -22,7 +23,6 @@ def is_first_run():
             c.execute(line)
         conn.commit()
         logger.info("Generated Tables for first run")
-        firstRunFile.close()
         firstRunFile = open("firstRun.conf","w+")
         firstRunFile.write("no")
         firstRunFile.close()
