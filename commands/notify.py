@@ -16,7 +16,7 @@ def startnotifycmd(printuser,user,line):
     if(len(line)>4):
         state=line[4]
         if(state.upper()=="ON" or state.upper()=="OFF"):
-            
+
             notifymanage(printuser,user,state)
         else:
             printUser("parameters are ON or OFF",printuser)
@@ -24,7 +24,7 @@ def startnotifycmd(printuser,user,line):
         printUser("USAGE:.notify ON/OFF",printuser)
 
 def notifymanage(printuser,user,state):
-    
+
     c=getC()
     conn=getConn()
     if(userExists(user)==False):
@@ -45,39 +45,37 @@ def notifymanage(printuser,user,state):
         except:
             printUser("Error has occured!!!",user)
 def notifylog(user,logoutTime):
-    
+
+    logging.getLogger("CTFNoteTaker.commands.notify.leave").info(user + " logged out")
     c=getC()
     conn=getConn()
-    
-    if(userExists(user)==False):        
+
+    if(userExists(user)==False):
         return
     else:
-        
+
         c.execute("SELECT state FROM users WHERE user=(?)",(user,))
         state=c.fetchone()[0]
         if(state.upper()=="ON"):
             c.execute("UPDATE users SET lastLogout=(?) WHERE user=(?)",(logoutTime,user))
             conn.commit()
-            
+
         else:
             return
 
 def notifyjoin(user):
+    logging.getLogger("CTFNoteTaker.commands.notify.join").info(user + " logged in")
     c=getC()
     if(userExists(user)==False):
         return
-        
+
     else:
         c.execute("SELECT state FROM users WHERE user=(?)",(user,))
         state=c.fetchone()[0]
         if(state.upper()=="OFF"):
             return
         else:
-            
+
             c.execute("SELECT contributor,note FROM note WHERE timestamp>(SELECT lastLogout FROM users WHERE user=(?))",(user,))
             rows=c.fetchall()
             pretty_format_output(rows,user)
-        
-    
-        
-    
