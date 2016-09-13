@@ -47,7 +47,7 @@ def noteExists(noteID):
     else:
         return True
 def userExists(user):
-    Utilities.connections.c.execute("SELECT count(*) FROM users WHERE user=(?)",(user.lower(),))
+    Utilities.connections.c.execute("SELECT count(*) FROM users WHERE lower(user)=(?)",(user.lower(),))
     count=Utilities.connections.c.fetchone()[0]
     if(count==0):
         return False
