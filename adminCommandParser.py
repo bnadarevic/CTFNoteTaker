@@ -32,14 +32,14 @@ def adminCmdParser(user,line,cmd):
                     Perm = True
                     del line[4]
             else:
-                printUser("You must enter the password.")
+                printUser("You must enter the password.",user)
                 return
     if(line[len(line)-1].lower() == "public"):
         user = CHAN
         del line[len(line)-1]
 
     if(Perm == False):
-        printUser("You don't have enough perms to use this command!")
+        printUser("You don't have enough perms to use this command!",user)
         return
 
     cmd = cmd.lower()
