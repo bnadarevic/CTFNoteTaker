@@ -75,7 +75,6 @@ def notifyjoin(user):
         if(state.upper()=="OFF"):
             return
         else:
-
-            c.execute("SELECT contributor,note FROM note WHERE timestamp>(SELECT lastLogout FROM users WHERE user=(?))",(user,))
+            c.execute("SELECT name,title,contributor,note FROM note INNER JOIN challenges ON note.challengeID = challenges.challengeID INNER JOIN ctf ON ctf.ctfID = challenges.ctfID WHERE timestamp>(SELECT lastLogout FROM users WHERE user=(?))",(user,))
             rows=c.fetchall()
             pretty_format_output(rows,user)
