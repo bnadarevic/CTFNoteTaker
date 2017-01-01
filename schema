@@ -17,7 +17,7 @@ contributor TEXT NOT NULL,
 note TEXT NOT NULL,
 timestamp INTEGER(4) NOT NULL DEFAULT (strftime('%s','now')),
 challengeID INT NOT NULL,
-FOREIGN KEY(challengeID) REFERENCES challenge(challengeID)
+FOREIGN KEY(challengeID) REFERENCES challenges(challengeID)
 ON DELETE CASCADE);
 
 CREATE TABLE users(
@@ -25,4 +25,3 @@ uid INTEGER PRIMARY KEY AUTOINCREMENT,
 user TEXT NOT NULL,
 state TEXT,
 lastLogout INTEGER(4));
-
