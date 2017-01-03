@@ -39,9 +39,9 @@ def notifymanage(printuser,user,state):
             c.execute("UPDATE users SET state = (?) WHERE user = (?)",(state,user))
             conn.commit()
             if(state.upper()=="ON"):
-                printUser("notifications have been turned on",printuser)
+                printUser("notifications have been turned on for {}".format(user),printuser)
             else:
-                printUser("notifications have been turned off",printuser)
+                printUser("notifications have been turned off for {}".format(user),printuser)
         except:
             printUser("Error has occured!!!",user)
 def notifylog(user,logoutTime):
